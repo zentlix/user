@@ -7,7 +7,7 @@ namespace Zentlix\User\Infrastructure\Locale\Specification;
 use Spiral\Translator\TranslatorInterface;
 use Zentlix\Core\Infrastructure\Shared\Specification\AbstractSpecification;
 use Zentlix\User\Domain\Locale\Exception\DuplicateCodeException;
-use Zentlix\User\Domain\Locale\Repository\CheckLocaleByCodeInterface;
+use Zentlix\User\Domain\Locale\ReadModel\Repository\CheckLocaleByCodeInterface;
 use Zentlix\User\Domain\Locale\Specification\UniqueCodeSpecificationInterface;
 
 final class UniqueCodeSpecification extends AbstractSpecification implements UniqueCodeSpecificationInterface
@@ -33,7 +33,7 @@ final class UniqueCodeSpecification extends AbstractSpecification implements Uni
      *
      * @psalm-suppress MoreSpecificImplementedParamType
      */
-    public function isSatisfiedBy($value): bool
+    public function isSatisfiedBy(mixed $value): bool
     {
         if ($this->checkLocaleByCode->existsCode($value)) {
             throw new DuplicateCodeException(

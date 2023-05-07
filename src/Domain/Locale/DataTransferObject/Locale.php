@@ -6,6 +6,7 @@ namespace Zentlix\User\Domain\Locale\DataTransferObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints;
 
 class Locale
@@ -41,6 +42,7 @@ class Locale
      */
     #[Constraints\NotBlank]
     #[Constraints\Type('string')]
+    #[SerializedName('country_code')]
     private string $countryCode;
 
     public function __construct()

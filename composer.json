@@ -12,6 +12,8 @@
         "spiral/config": "^3.7",
         "spiral-packages/cqrs": "^2.2",
         "spiral-packages/symfony-validator": "^1.3",
+        "cycle/orm": "^2.3",
+        "cycle/annotated": "^3.2",
         "zentlix/broadway": "^1.0",
         "ramsey/uuid": "^4.7"
     },
@@ -45,6 +47,10 @@
     "extra": {
         "spiral": {
             "bootloaders": [
+                "Zentlix\\User\\Infrastructure\\Locale\\Bootloader\\EventSourcingBootloader",
+                "Zentlix\\User\\Infrastructure\\Locale\\Bootloader\\ReadModelBootloader",
+                "Zentlix\\User\\Infrastructure\\Locale\\Bootloader\\SpecificationBootloader",
+                "Zentlix\\User\\Infrastructure\\Locale\\Bootloader\\ValidationBootloader",
                 "Zentlix\\User\\Infrastructure\\Shared\\Bootloader\\I18nBootloader"
             ]
         }

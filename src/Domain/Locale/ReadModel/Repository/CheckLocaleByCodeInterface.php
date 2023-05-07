@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\User\Domain\Locale\Repository;
+namespace Zentlix\User\Domain\Locale\ReadModel\Repository;
 
 use Ramsey\Uuid\UuidInterface;
 
