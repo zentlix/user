@@ -7,7 +7,7 @@ namespace Zentlix\User\Domain\Group;
 use Ramsey\Uuid\UuidInterface;
 use Zentlix\User\Domain\Group\DataTransferObject\Title as TitleDTO;
 
-class Title
+final class Title
 {
     /**
      * @var non-empty-string

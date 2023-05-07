@@ -31,6 +31,9 @@ final class Group
 
     private Role $role = Role::USER;
 
+    /**
+     * @var non-empty-string[]
+     */
     #[Constraints\Type('array')]
     public array $rights = [];
 

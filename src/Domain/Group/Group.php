@@ -33,6 +33,9 @@ final class Group extends EventSourcedAggregateRoot
 
     private Role $role;
 
+    /**
+     * @var non-empty-string[]
+     */
     private array $rights = [];
 
     public static function create(GroupDTO $data, GroupValidatorInterface $validator): self
@@ -73,6 +76,9 @@ final class Group extends EventSourcedAggregateRoot
         return $this->role;
     }
 
+    /**
+     * @return non-empty-string[]
+     */
     public function getRights(): array
     {
         return $this->rights;

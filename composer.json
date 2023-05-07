@@ -17,6 +17,7 @@
         "ramsey/uuid": "^4.7",
         "doctrine/collections": "^2.1",
         "zentlix/broadway": "^1.0",
+        "zentlix/libphonenumber": "^1.1",
         "zentlix/core": "^1.0"
     },
     "require-dev": {
