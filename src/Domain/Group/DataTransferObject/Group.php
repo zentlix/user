@@ -48,9 +48,9 @@ final class Group
 
     /**
      * @param non-empty-string $title
-     * @param non-empty-string|Uuid $locale
+     * @param non-empty-string|UuidInterface $locale
      */
-    public function setTitle(string $title, string|Uuid $locale): self
+    public function setTitle(string $title, string|UuidInterface $locale): self
     {
         $lang = new GroupTitle();
         $lang->title = $title;

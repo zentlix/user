@@ -38,6 +38,9 @@ final class GroupTitle
         return $this->group;
     }
 
+    /**
+     * @param non-empty-string|UuidInterface $uuid
+     */
     public function setGroup(string|UuidInterface $uuid): self
     {
         $this->group = $uuid instanceof UuidInterface ? $uuid : Uuid::fromString($uuid);
@@ -50,7 +53,10 @@ final class GroupTitle
         return $this->locale;
     }
 
-    public function setLocale(string|Uuid $uuid): self
+    /**
+     * @param non-empty-string|UuidInterface $uuid
+     */
+    public function setLocale(string|UuidInterface $uuid): self
     {
         $this->locale = $uuid instanceof UuidInterface ? $uuid : Uuid::fromString($uuid);
 
