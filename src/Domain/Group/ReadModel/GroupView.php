@@ -55,7 +55,7 @@ class GroupView
      * @var string[]
      */
     #[Ignore]
-    #[Column(type: 'json')]
+    #[Column(type: 'json', typecast: 'json')]
     public array $rights = [];
 
     public function __construct()

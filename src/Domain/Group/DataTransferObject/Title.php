@@ -10,9 +10,6 @@ use Symfony\Component\Validator\Constraints;
 
 final class Title
 {
-    #[Constraints\Uuid]
-    public UuidInterface $uuid;
-
     /**
      * @var non-empty-string
      */
@@ -27,11 +24,6 @@ final class Title
     #[Constraints\NotBlank]
     #[Constraints\Uuid]
     private UuidInterface $locale;
-
-    public function __construct()
-    {
-        $this->uuid = Uuid::uuid4();
-    }
 
     public function getGroup(): UuidInterface
     {

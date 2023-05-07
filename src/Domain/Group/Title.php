@@ -9,8 +9,6 @@ use Zentlix\User\Domain\Group\DataTransferObject\Title as TitleDTO;
 
 class Title
 {
-    private UuidInterface $uuid;
-
     /**
      * @var non-empty-string
      */
@@ -22,15 +20,9 @@ class Title
 
     public function __construct(TitleDTO $data)
     {
-        $this->uuid = $data->uuid;
         $this->title = $data->title;
         $this->group = $data->getGroup();
         $this->locale = $data->getLocale();
-    }
-
-    public function getUuid(): UuidInterface
-    {
-        return $this->uuid;
     }
 
     /**
