@@ -35,7 +35,7 @@ final class Group
     public array $rights = [];
 
     /**
-     * @var GroupTitle[]
+     * @var Title[]
      */
     #[Constraints\NotBlank]
     #[Constraints\Type('array')]
@@ -52,7 +52,7 @@ final class Group
      */
     public function setTitle(string $title, string|UuidInterface $locale): self
     {
-        $lang = new GroupTitle();
+        $lang = new Title();
         $lang->title = $title;
         $lang->setLocale($locale);
         $lang->setGroup($this->uuid);
@@ -63,7 +63,7 @@ final class Group
     }
 
     /**
-     * @return GroupTitle[]
+     * @return Title[]
      */
     public function getTitles(): array
     {

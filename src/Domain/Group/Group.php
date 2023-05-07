@@ -7,9 +7,9 @@ namespace Zentlix\User\Domain\Group;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Ramsey\Uuid\UuidInterface;
 use Zentlix\User\Domain\Group\DataTransferObject\Group as GroupDTO;
-use Zentlix\User\Domain\Group\DataTransferObject\GroupTitle as GroupTitleDTO;
+use Zentlix\User\Domain\Group\DataTransferObject\Title as TitleDTO;
 use Zentlix\User\Domain\Group\Event\GroupWasCreated;
-use Zentlix\User\Domain\Group\Exception\GroupTitleNotFoundException;
+use Zentlix\User\Domain\Group\Exception\TitleNotFoundException;
 use Zentlix\User\Domain\Group\Service\GroupValidatorInterface;
 
 final class Group extends EventSourcedAggregateRoot
@@ -17,7 +17,7 @@ final class Group extends EventSourcedAggregateRoot
     private UuidInterface $uuid;
 
     /**
-     * @var GroupTitle[]
+     * @var Title[]
      */
     private array $titles;
 
@@ -51,13 +51,13 @@ final class Group extends EventSourcedAggregateRoot
     }
 
     /**
-     * @throws GroupTitleNotFoundException
+     * @throws TitleNotFoundException
      */
-    public function getTitle(UuidInterface $locale, UuidInterface $fallbackLocale): GroupTitle
+    public function getTitle(UuidInterface $locale, UuidInterface $fallbackLocale): Title
     {
         return $this->titles[$locale->toString()]
             ?? $this->titles[$fallbackLocale->toString()]
-            ?? throw new GroupTitleNotFoundException($locale->toString());
+            ?? throw new TitleNotFoundException($locale->toString());
     }
 
     /**
@@ -112,10 +112,7 @@ final class Group extends EventSourcedAggregateRoot
     protected function applyGroupWasCreated(GroupWasCreated $event): void
     {
         $this->uuid = $event->data->uuid;
-        $this->titles = array_map(
-            static fn (GroupTitleDTO $title): GroupTitle => new GroupTitle($title),
-            $event->data->getTitles()
-        );
+        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
         $this->code = $event->data->code;
         $this->role = $event->data->getRole();
         $this->sort = $event->data->sort;

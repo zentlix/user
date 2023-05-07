@@ -6,6 +6,7 @@ namespace Zentlix\User\Domain\Locale\ReadModel;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
+use Cycle\Annotated\Annotation\Table\Index;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
@@ -18,6 +19,7 @@ use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepositor
     type: 'object',
 )]
 #[Entity(role: 'locale', repository: CycleLocaleRepository::class, table: 'zx_locales')]
+#[Index(columns: ['code'], unique: true)]
 class LocaleView
 {
     #[OA\Property(type: 'string', example: '7be33fd4-ff46-11ea-adc1-0242ac120002')]
@@ -47,7 +49,7 @@ class LocaleView
     public string $countryCode;
 
     #[OA\Property(type: 'boolean')]
-    #[Column(type: 'boolean')]
+    #[Column(type: 'boolean', typecast: 'bool')]
     public bool $active;
 
     /**

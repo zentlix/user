@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Zentlix\User\Domain\Group;
 
 use Ramsey\Uuid\UuidInterface;
-use Zentlix\User\Domain\Group\DataTransferObject\GroupTitle as GroupTitleDTO;
+use Zentlix\User\Domain\Group\DataTransferObject\Title as TitleDTO;
 
-class GroupTitle
+class Title
 {
     private UuidInterface $uuid;
 
@@ -20,7 +20,7 @@ class GroupTitle
 
     private UuidInterface $locale;
 
-    public function __construct(GroupTitleDTO $data)
+    public function __construct(TitleDTO $data)
     {
         $this->uuid = $data->uuid;
         $this->title = $data->title;

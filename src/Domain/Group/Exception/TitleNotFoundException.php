@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\Group\Exception;
 
-final class GroupTitleNotFoundException extends \InvalidArgumentException
+final class TitleNotFoundException extends \InvalidArgumentException
 {
     public function __construct(string $locale)
     {

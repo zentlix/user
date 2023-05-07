@@ -8,7 +8,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints;
 
-final class GroupTitle
+final class Title
 {
     #[Constraints\Uuid]
     public UuidInterface $uuid;
