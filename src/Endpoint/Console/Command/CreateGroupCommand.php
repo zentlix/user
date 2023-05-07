@@ -73,7 +73,7 @@ final class CreateGroupCommand extends Command
 
         try {
             $commandBus->dispatch($command);
-        } catch (\Exception $exception) {
+        } catch (\Throwable $exception) {
             $this->output->error($exception->getMessage());
 
             return self::FAILURE;

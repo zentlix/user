@@ -39,10 +39,24 @@ interface LocaleRepositoryInterface
     /**
      * @param non-empty-string $fullCode
      */
+    public function findByFullCode(string $fullCode): ?LocaleView;
+
+    /**
+     * @param non-empty-string $fullCode
+     *
+     * @throws LocaleNotFoundException
+     */
     public function getByFullCode(string $fullCode): LocaleView;
 
     /**
      * @param non-empty-string $code
+     */
+    public function findByCode(string $code): ?LocaleView;
+
+    /**
+     * @param non-empty-string $code
+     *
+     * @throws LocaleNotFoundException
      */
     public function getByCode(string $code): LocaleView;
 }

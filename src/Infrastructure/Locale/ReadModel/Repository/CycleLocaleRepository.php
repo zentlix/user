@@ -135,15 +135,23 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
 
     /**
      * @param non-empty-string $fullCode
+     */
+    public function findByFullCode(string $fullCode): ?LocaleView
+    {
+        /** @var array{0: non-empty-string, 1: non-empty-string} $codes */
+        $codes = \explode('_', $fullCode);
+
+        return $this->findOne(['code' => $codes[0], 'country_code' => $codes[1]]);
+    }
+
+    /**
+     * @param non-empty-string $fullCode
      *
      * @throws LocaleNotFoundException
      */
     public function getByFullCode(string $fullCode): LocaleView
     {
-        /** @var array{0: non-empty-string, 1: non-empty-string} $codes */
-        $codes = \explode('_', $fullCode);
-
-        $locale = $this->findOne(['code' => $codes[0], 'country_code' => $codes[1]]);
+        $locale = $this->findByFullCode($fullCode);
 
         if (null === $locale) {
             throw new LocaleNotFoundException(\sprintf('The Locale with code `%s` not found.', $fullCode));
@@ -154,12 +162,20 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
 
     /**
      * @param non-empty-string $code
+     */
+    public function findByCode(string $code): ?LocaleView
+    {
+        return $this->findOne(['code' => $code]);
+    }
+
+    /**
+     * @param non-empty-string $code
      *
      * @throws LocaleNotFoundException
      */
     public function getByCode(string $code): LocaleView
     {
-        $locale = $this->findOne(['code' => $code]);
+        $locale = $this->findByCode($code);
 
         if (null === $locale) {
             throw new LocaleNotFoundException(\sprintf('The Locale with code `%s` not found.', $code));
@@ -181,7 +197,7 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
      */
     private function getLocaleByCodeQueryBuilder(string|array $code): SelectQuery
     {
-        if (is_string($code)) {
+        if (\is_string($code)) {
             $code = [$code];
         }
 

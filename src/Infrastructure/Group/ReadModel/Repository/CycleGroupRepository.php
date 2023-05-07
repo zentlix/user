@@ -9,15 +9,57 @@ use Cycle\Database\Query\SelectQuery;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Zentlix\Core\Infrastructure\Shared\ReadModel\Repository\CycleRepository;
+use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
+use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
 
 /**
  * @method GroupView|null findOne(array $scope = [])
  * @method GroupView|null findByPK($id)
  */
-final class CycleGroupRepository extends CycleRepository implements CheckGroupByCodeInterface
+final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupByCodeInterface
 {
+    public function findByUuid(UuidInterface $uuid): ?GroupView
+    {
+        return $this->findOne(['uuid' => $uuid]);
+    }
+
+    public function getByUuid(UuidInterface $uuid): GroupView
+    {
+        $group = $this->findByUuid($uuid);
+
+        if (null === $group) {
+            throw new GroupNotFoundException(\sprintf('The Group with UUID `%s` not found.', $uuid->toString()));
+        }
+
+        return $group;
+    }
+
+    /**
+     * @param non-empty-string $code
+     */
+    public function findByCode(string $code): ?GroupView
+    {
+        return $this->findOne(['code' => $code]);
+    }
+
+    /**
+     * @param non-empty-string $code
+     *
+     * @throws GroupNotFoundException
+     */
+    public function getByCode(string $code): GroupView
+    {
+        $group = $this->findByCode($code);
+
+        if (null === $group) {
+            throw new GroupNotFoundException(\sprintf('The Group with symbol code `%s` not found.', $code));
+        }
+
+        return $group;
+    }
+
     /**
      * @param non-empty-string|non-empty-string[] $code
      */
