@@ -6,7 +6,6 @@ namespace Zentlix\User\Infrastructure\Locale\ReadModel\Repository;
 
 use Cycle\Database\Injection\Parameter;
 use Cycle\Database\Query\SelectQuery;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Spiral\Pagination\Paginator;
 use Zentlix\Core\Application\Shared\Query\Collection;
@@ -23,31 +22,6 @@ use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
  */
 final class CycleLocaleRepository extends CycleRepository implements LocaleRepositoryInterface, CheckLocaleInterface, CheckLocaleByCodeInterface
 {
-    /**
-     * @param non-empty-string|non-empty-string[] $code
-     */
-    public function existsCode(string|array $code): array|UuidInterface|null
-    {
-        $query = $this->getLocaleByCodeQueryBuilder($code)->columns('uuid');
-
-        if (\is_string($code)) {
-            /** @var ?non-empty-string $result */
-            $result = $query->fetchAll()[0]['uuid'] ?? null;
-
-            return $result !== null ? Uuid::fromString($result) : null;
-        }
-
-        return \array_map(
-            static fn (string $uuid): UuidInterface => Uuid::fromString($uuid),
-            \array_column($query->fetchAll(), 'uuid')
-        );
-    }
-
-    public function add(LocaleView $localeRead): void
-    {
-        $this->register($localeRead);
-    }
-
     /**
      * @return LocaleView[]
      */
@@ -116,21 +90,24 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
         );
     }
 
+    /**
+     * @param UuidInterface|UuidInterface[] $uuid
+     *
+     * @psalm-return ($uuid is array ? array : ?UuidInterface)
+     */
     public function exists(array|UuidInterface $uuid): UuidInterface|array|null
     {
-        $query = $this->getLocaleQueryBuilder($uuid)->columns('uuid');
+        return $this->fetchUuid($this->getLocaleQueryBuilder($uuid)->columns('uuid'), \is_array($uuid));
+    }
 
-        if ($uuid instanceof UuidInterface) {
-            /** @var ?non-empty-string $result */
-            $result = $query->fetchAll()[0]['uuid'] ?? null;
-
-            return $result !== null ? Uuid::fromString($result) : null;
-        }
-
-        return \array_map(
-            static fn (string $uuid): UuidInterface => Uuid::fromString($uuid),
-            \array_column($query->fetchAll(), 'uuid')
-        );
+    /**
+     * @param non-empty-string|non-empty-string[] $code
+     *
+     * @psalm-return ($code is array ? array : ?UuidInterface)
+     */
+    public function existsCode(string|array $code): array|UuidInterface|null
+    {
+        return $this->fetchUuid($this->getLocaleByCodeQueryBuilder($code)->columns('uuid'), \is_array($code));
     }
 
     /**
@@ -182,6 +159,11 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
         }
 
         return $locale;
+    }
+
+    public function add(LocaleView $localeRead): void
+    {
+        $this->register($localeRead);
     }
 
     public function active(): self

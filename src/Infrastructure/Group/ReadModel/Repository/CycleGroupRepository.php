@@ -65,19 +65,7 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
      */
     public function existsCode(string|array $code): array|UuidInterface|null
     {
-        $query = $this->getGroupByCodeQueryBuilder($code)->columns('uuid');
-
-        if (\is_string($code)) {
-            /** @var ?non-empty-string $result */
-            $result = $query->fetchAll()[0]['uuid'] ?? null;
-
-            return $result !== null ? Uuid::fromString($result) : null;
-        }
-
-        return \array_map(
-            static fn (string $uuid): UuidInterface => Uuid::fromString($uuid),
-            \array_column($query->fetchAll(), 'uuid')
-        );
+        return $this->fetchUuid($this->getGroupByCodeQueryBuilder($code)->columns('uuid'), \is_array($code));
     }
 
     public function add(GroupView $groupRead): void

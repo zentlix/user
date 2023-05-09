@@ -10,6 +10,8 @@ interface CheckLocaleByCodeInterface
 {
     /**
      * @param non-empty-string|non-empty-string[] $code
+     *
+     * @psalm-return ($code is array ? array : ?UuidInterface)
      */
     public function existsCode(array|string $code): array|UuidInterface|null;
 }
