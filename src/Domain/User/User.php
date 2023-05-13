@@ -55,14 +55,9 @@ final class User extends EventSourcedAggregateRoot
      */
     private string $password;
 
-    private ResetToken $resetToken;
+    private ResetPassword $resetPassword;
 
-    private ?Email $newEmail = null;
-
-    /**
-     * @var non-empty-string
-     */
-    private ?string $newEmailToken = null;
+    private ResetEmail $resetEmail;
 
     private ?UuidInterface $locale = null;
 
@@ -71,6 +66,12 @@ final class User extends EventSourcedAggregateRoot
     private \DateTimeImmutable $updatedAt;
 
     private \DateTimeImmutable $createdAt;
+
+    public function __construct()
+    {
+        $this->resetPassword = new ResetPassword();
+        $this->resetEmail = new ResetEmail();
+    }
 
     public static function create(UserDTO $data, UserValidatorInterface $validator): self
     {
@@ -173,6 +174,31 @@ final class User extends EventSourcedAggregateRoot
     public function isEmailConfirmed(): bool
     {
         return $this->emailConfirmed;
+    }
+
+    public function getEmailConfirmToken(): ?string
+    {
+        return $this->emailConfirmToken;
+    }
+
+    public function getResetPasswordToken(): ?string
+    {
+        return $this->resetPassword->getToken();
+    }
+
+    public function isResetPasswordTokenExpired(): bool
+    {
+        return $this->resetPassword->isExpiredTo();
+    }
+
+    public function getResetEmailToken(): ?string
+    {
+        return $this->resetEmail->getToken();
+    }
+
+    public function isResetEmailTokenExpired(): bool
+    {
+        return $this->resetEmail->isExpiredTo();
     }
 
     public function isBlocked(): bool

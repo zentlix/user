@@ -4,25 +4,31 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\User;
 
-final class ResetToken
+use Cycle\Annotated\Annotation\Column;
+use Cycle\Annotated\Annotation\Embeddable;
+
+#[Embeddable]
+class ResetPassword
 {
     /**
      * @var non-empty-string|null
      */
-    private ?string $token;
+    #[Column(type: 'string', nullable: true)]
+    private ?string $token = null;
 
-    private ?\DateTimeImmutable $expires;
+    #[Column(type: 'datetime', nullable: true)]
+    private ?\DateTimeImmutable $expires = null;
 
     /**
      * @param non-empty-string|null $token
      */
-    public function __construct(string $token = null, \DateTimeImmutable $expires = null)
+    public function __construct(?string $token = null, ?\DateTimeImmutable $expires = null)
     {
         $this->token = $token;
         $this->expires = $expires;
     }
 
-    public function isExpiredTo(\DateTimeImmutable $expiredTo): bool
+    public function isExpiredTo(\DateTimeImmutable $expiredTo = new \DateTimeImmutable()): bool
     {
         return $this->expires <= $expiredTo;
     }

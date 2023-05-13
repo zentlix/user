@@ -48,7 +48,7 @@ class GroupView
     public int $sort;
 
     #[Ignore]
-    #[Column(type: 'string')]
+    #[Column(type: 'string', typecast: [Role::class, 'typecast'])]
     public Role $role;
 
     /**

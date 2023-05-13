@@ -6,22 +6,31 @@ namespace Zentlix\User\Infrastructure\Group\ReadModel\Repository;
 
 use Cycle\Database\Injection\Parameter;
 use Cycle\Database\Query\SelectQuery;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Zentlix\Core\Infrastructure\Shared\ReadModel\Repository\CycleRepository;
 use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
+use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
 
 /**
  * @method GroupView|null findOne(array $scope = [])
  * @method GroupView|null findByPK($id)
  */
-final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupByCodeInterface
+final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupInterface, CheckGroupByCodeInterface
 {
-    public function findByUuid(UuidInterface $uuid): ?GroupView
+    /**
+     * @param UuidInterface|UuidInterface[] $uuid
+     *
+     * @psalm-return ($uuid is array ? array : ?GroupView)
+     */
+    public function findByUuid(UuidInterface|array $uuid): GroupView|array|null
     {
+        if (\is_array($uuid)) {
+            return $this->findAll(['uuid' => ['in' => new Parameter($uuid)]]);
+        }
+
         return $this->findOne(['uuid' => $uuid]);
     }
 
@@ -61,6 +70,16 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
     }
 
     /**
+     * @param UuidInterface|UuidInterface[] $uuid
+     *
+     * @psalm-return ($uuid is array ? array : ?UuidInterface)
+     */
+    public function exists(UuidInterface|array $uuid): UuidInterface|array|null
+    {
+        return $this->fetchUuid($this->getGroupQueryBuilder($uuid)->columns('uuid'), \is_array($uuid));
+    }
+
+    /**
      * @param non-empty-string|non-empty-string[] $code
      */
     public function existsCode(string|array $code): array|UuidInterface|null
@@ -71,6 +90,22 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
     public function add(GroupView $groupRead): void
     {
         $this->register($groupRead);
+    }
+
+    /**
+     * @param UuidInterface|UuidInterface[] $uuid
+     */
+    private function getGroupQueryBuilder(UuidInterface|array $uuid): SelectQuery
+    {
+        if ($uuid instanceof UuidInterface) {
+            $uuid = [$uuid];
+        }
+
+        return $this
+            ->select()
+            ->buildQuery()
+            ->from('zx_groups')
+            ->where(['uuid' => ['in' => new Parameter($uuid)]]);
     }
 
     /**

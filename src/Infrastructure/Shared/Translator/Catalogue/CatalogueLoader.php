@@ -60,7 +60,9 @@ final class CatalogueLoader implements LoaderInterface
         $directories = [];
         /** @var non-empty-string $directory */
         foreach ($this->config->toArray()['directories'] ?? [] as $directory) {
-            $directories[] = \rtrim($directory, '/') . '/' . $locale;
+            if (\is_dir(\rtrim($directory, '/') . '/' . $locale)) {
+                $directories[] = \rtrim($directory, '/') . '/' . $locale;
+            }
         }
         if (\is_dir($this->config->getLocalesDirectory())) {
             $directories[] = $this->config->getLocalesDirectory() . $locale;

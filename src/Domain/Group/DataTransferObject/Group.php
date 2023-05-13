@@ -29,7 +29,7 @@ final class Group
     #[Constraints\Type('int')]
     public int $sort = 1;
 
-    private Role $role = Role::USER;
+    private Role $role = Role::User;
 
     /**
      * @var non-empty-string[]

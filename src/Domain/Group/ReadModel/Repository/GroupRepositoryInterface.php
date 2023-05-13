@@ -15,7 +15,12 @@ interface GroupRepositoryInterface
      */
     public function findAll(array $scope = [], array $orderBy = []): iterable;
 
-    public function findByUuid(UuidInterface $uuid): ?GroupView;
+    /**
+     * @param UuidInterface|UuidInterface[] $uuid
+     *
+     * @psalm-return ($uuid is array ? array : ?GroupView)
+     */
+    public function findByUuid(UuidInterface|array $uuid): GroupView|array|null;
 
     /**
      * @throws GroupNotFoundException

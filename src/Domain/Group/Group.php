@@ -102,7 +102,7 @@ final class Group extends EventSourcedAggregateRoot
 
     public function isAdminGroup(): bool
     {
-        return $this->role->value === Role::ADMIN->value;
+        return $this->role->value === Role::Admin->value;
     }
 
     public function isAccessGranted(): bool

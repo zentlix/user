@@ -17,7 +17,6 @@ use Ramsey\Uuid\UuidInterface;
     type: 'object',
 )]
 #[Entity(role: 'group_title', table: 'zx_group_titles')]
-#[Index(columns: ['group_id', 'locale_id'], unique: true)]
 class TitleView
 {
     /**

@@ -57,7 +57,7 @@ final class CreateGroupCommand extends Command
         /** @var non-empty-string $role */
         $role = $this->output->choice(
             'Please, select a group role',
-            [Role::ADMIN->value, Role::USER->value],
+            [Role::Admin->value, Role::User->value],
             0
         );
         $command->data->setRole($role);
