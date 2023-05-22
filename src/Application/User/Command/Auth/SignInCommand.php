@@ -9,6 +9,9 @@ use Zentlix\User\Domain\User\ValueObject\Email;
 
 final class SignInCommand implements CommandInterface
 {
+    /**
+     * @param non-empty-string $plainPassword
+     */
     public function __construct(
         public readonly Email $email,
         public readonly string $plainPassword,

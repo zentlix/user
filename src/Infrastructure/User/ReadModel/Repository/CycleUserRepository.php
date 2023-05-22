@@ -22,11 +22,13 @@ use Zentlix\User\Domain\User\ValueObject\Email;
 /**
  * @method UserView|null findOne(array $scope = [])
  * @method UserView|null findByPK($id)
+ * @method UserView[] findAll(array $scope = [], array $orderBy = [])
  */
 final class CycleUserRepository extends CycleRepository implements UserRepositoryInterface, CheckUserByEmailInterface, CheckUserByPhoneInterface
 {
     public function getActor(TokenInterface $token): ?UserView
     {
+        /** @var array{userID: non-empty-string}|null $data */
         $data = $token->getPayload();
 
         if (!isset($data['userID'])) {
@@ -44,7 +46,7 @@ final class CycleUserRepository extends CycleRepository implements UserRepositor
     /**
      * @param UuidInterface|UuidInterface[] $uuid
      *
-     * @psalm-return ($uuid is array ? array : ?UserView)
+     * @psalm-return ($uuid is array ? UserView[] : UserView|null)
      */
     public function findByUuid(UuidInterface|array $uuid): UserView|array|null
     {
@@ -72,7 +74,7 @@ final class CycleUserRepository extends CycleRepository implements UserRepositor
     /**
      * @param Email|Email[] $email
      *
-     * @psalm-return ($email is array ? array : ?UserView)
+     * @psalm-return ($email is array ? UserView[] : UserView|null)
      */
     public function findByEmail(Email|array $email): UserView|array|null
     {

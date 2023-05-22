@@ -17,13 +17,14 @@ use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
 /**
  * @method GroupView|null findOne(array $scope = [])
  * @method GroupView|null findByPK($id)
+ * @method GroupView[] findAll(array $scope = [], array $orderBy = [])
  */
 final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupInterface, CheckGroupByCodeInterface
 {
     /**
      * @param UuidInterface|UuidInterface[] $uuid
      *
-     * @psalm-return ($uuid is array ? array : ?GroupView)
+     * @psalm-return ($uuid is array ? GroupView[] : GroupView|null)
      */
     public function findByUuid(UuidInterface|array $uuid): GroupView|array|null
     {
@@ -72,7 +73,7 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
     /**
      * @param UuidInterface|UuidInterface[] $uuid
      *
-     * @psalm-return ($uuid is array ? array : ?UuidInterface)
+     * @psalm-return ($uuid is array ? UuidInterface[] : UuidInterface|null)
      */
     public function exists(UuidInterface|array $uuid): UuidInterface|array|null
     {

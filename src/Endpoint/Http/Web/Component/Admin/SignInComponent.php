@@ -59,6 +59,7 @@ final class SignInComponent extends FormComponent
                 sessionExpiration: $this->getSessionExpiration($data['remember_me'])
             ));
 
+            /** @var non-empty-string|null $targetPath */
             $targetPath = $this->sessionScope->getActiveSession()->getSection('auth')->get('target_path');
             !empty($targetPath)
                 ? $this->redirectTo($targetPath)

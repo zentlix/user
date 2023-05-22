@@ -15,11 +15,23 @@ final class PasswordHasher implements PasswordHasherInterface
     ) {
     }
 
+    /**
+     * @param non-empty-string $plainPassword
+     *
+     * @return non-empty-string
+     */
     public function hashPassword(string $plainPassword): string
     {
-        return $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($plainPassword);
+        /** @var non-empty-string $hash */
+        $hash = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($plainPassword);
+
+        return $hash;
     }
 
+    /**
+     * @param non-empty-string $plainPassword
+     * @param non-empty-string $password
+     */
     public function isPasswordValid(string $plainPassword, string $password): bool
     {
         return $this->passwordHasherFactory->getPasswordHasher(User::class)->verify($password, $plainPassword);

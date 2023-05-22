@@ -41,6 +41,9 @@ class UserView implements UserInterface
     #[Column(type: 'uuid', primary: true, typecast: 'uuid')]
     public UuidInterface $uuid;
 
+    /**
+     * @var non-empty-string
+     */
     #[Ignore]
     #[Column(type: 'string')]
     public string $password;
@@ -129,6 +132,9 @@ class UserView implements UserInterface
         return $this->uuid->toString();
     }
 
+    /**
+     * @return non-empty-string
+     */
     #[Ignore]
     public function getPassword(): string
     {

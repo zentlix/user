@@ -22,9 +22,9 @@ final class CreateHandler
     #[CommandHandler]
     public function __invoke(CreateCommand $command): void
     {
-        $command->data->password = $this->passwordHasherFactory
-            ->getPasswordHasher(User::class)
-            ->hash($command->data->password);
+        /** @var non-empty-string $hash */
+        $hash = $this->passwordHasherFactory->getPasswordHasher(User::class)->hash($command->data->password);
+        $command->data->password = $hash;
 
         $this->repository->store(User::create($command->data, $this->validator));
     }

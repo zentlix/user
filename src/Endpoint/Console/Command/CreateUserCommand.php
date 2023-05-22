@@ -39,7 +39,9 @@ final class CreateUserCommand extends Command
             static fn (GroupView $group) => [
                 'uuid' => $group->uuid->toString(),
                 'code' => $group->code,
-            ], $groupRepository->findAll());
+            ],
+            $groupRepository->findAll()
+        );
         if ([] === $groups) {
             $this->output->info('Please, create at least one user group.');
 

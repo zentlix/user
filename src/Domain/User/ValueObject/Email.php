@@ -6,13 +6,22 @@ namespace Zentlix\User\Domain\User\ValueObject;
 
 final class Email implements \Stringable
 {
+    /**
+     * @var non-empty-string
+     */
     private string $value;
 
+    /**
+     * @return non-empty-string
+     */
     public function __toString(): string
     {
         return $this->value;
     }
 
+    /**
+     * @return non-empty-string
+     */
     public function getValue(): string
     {
         return $this->value;
