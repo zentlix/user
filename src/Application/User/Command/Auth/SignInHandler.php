@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Application\User\Command\Auth;
 
+use Spiral\AdminPanel\Security\AuthenticatorInterface;
+use Spiral\AdminPanel\Security\Credentials;
 use Spiral\Cqrs\Attribute\CommandHandler;
-use Spiral\Filament\Security\AuthenticatorInterface;
-use Spiral\Filament\Security\Credentials;
 
 final class SignInHandler
 {

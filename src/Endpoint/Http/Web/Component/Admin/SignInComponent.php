@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Endpoint\Http\Web\Component\Admin;
 
+use Spiral\AdminPanel\Config\AdminPanelConfig;
+use Spiral\AdminPanel\Exception\InvalidEmailException;
+use Spiral\AdminPanel\Exception\InvalidPasswordException;
 use Spiral\Cqrs\CommandBusInterface;
-use Spiral\Filament\Config\FilamentConfig;
-use Spiral\Filament\Exception\InvalidEmailException;
-use Spiral\Filament\Exception\InvalidPasswordException;
 use Spiral\Livewire\Attribute\Component;
 use Spiral\Session\SessionScope;
 use Spiral\Symfony\Form\Component\FormComponent;
@@ -31,7 +31,7 @@ final class SignInComponent extends FormComponent
         FormFactoryInterface $formFactory,
         private readonly CommandBusInterface $commandBus,
         private readonly SessionScope $sessionScope,
-        private readonly FilamentConfig $config
+        private readonly AdminPanelConfig $config
     ) {
         parent::__construct($formFactory);
     }

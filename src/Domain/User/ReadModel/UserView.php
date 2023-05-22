@@ -14,7 +14,7 @@ use Doctrine\Common\Collections\Collection;
 use libphonenumber\PhoneNumber;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
-use Spiral\Filament\Security\UserInterface;
+use Spiral\AdminPanel\Security\UserInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;

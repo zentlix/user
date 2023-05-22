@@ -6,7 +6,7 @@ namespace Zentlix\User\Domain\User\ReadModel\Repository;
 
 use Cycle\Database\Query\SelectQuery;
 use Ramsey\Uuid\UuidInterface;
-use Spiral\Filament\Security\UserProviderInterface;
+use Spiral\AdminPanel\Security\UserProviderInterface;
 use Zentlix\User\Domain\User\Exception\UserNotFoundException;
 use Zentlix\User\Domain\User\ReadModel\UserView;
 use Zentlix\User\Domain\User\ValueObject\Email;

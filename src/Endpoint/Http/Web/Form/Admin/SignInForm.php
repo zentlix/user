@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Endpoint\Http\Web\Form\Admin;
 
-use Spiral\Filament\Form\AbstractType;
-use Spiral\Filament\Form\Type\CheckboxType;
-use Spiral\Filament\Form\Type\EmailType;
-use Spiral\Filament\Form\Type\PasswordType;
-use Spiral\Filament\Form\Type\SubmitType;
+use Spiral\AdminPanel\Form\AbstractType;
+use Spiral\AdminPanel\Form\Type\CheckboxType;
+use Spiral\AdminPanel\Form\Type\EmailType;
+use Spiral\AdminPanel\Form\Type\PasswordType;
+use Spiral\AdminPanel\Form\Type\SubmitType;
 use Spiral\Symfony\Form\Attribute\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Email;
