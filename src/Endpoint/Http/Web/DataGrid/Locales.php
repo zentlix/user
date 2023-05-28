@@ -5,21 +5,22 @@ declare(strict_types=1);
 namespace Zentlix\User\Endpoint\Http\Web\DataGrid;
 
 use Spiral\AdminPanel\Attribute\GridSchema;
-use Spiral\AdminPanel\DataGrid\Column\BoolColumn;
+use Spiral\AdminPanel\DataGrid\Column\BadgeColumn;
 use Spiral\AdminPanel\DataGrid\Column\LinkColumn;
 use Spiral\AdminPanel\DataGrid\Column\NumberColumn;
 use Spiral\AdminPanel\DataGrid\Column\TextColumn;
 use Spiral\AdminPanel\DataGrid\ColumnsConfigurator;
 use Spiral\AdminPanel\DataGrid\DefaultsConfigurator;
 use Spiral\AdminPanel\DataGrid\FiltersConfigurator;
-use Spiral\AdminPanel\DataGrid\GridSchemaInterface;
-use Spiral\AdminPanel\DataGrid\PaginatorConfigurator;
 use Spiral\AdminPanel\DataGrid\SortersConfigurator;
 use Spiral\DataGrid\Specification\Filter;
 use Spiral\DataGrid\Specification\Sorter;
+use Spiral\DataGrid\Specification\Value\StringValue;
+use Zentlix\Core\Endpoint\Http\Web\DataGrid\AbstractGridSchema;
+use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 
 #[GridSchema('admin-locales')]
-final class Locales implements GridSchemaInterface
+final class Locales extends AbstractGridSchema
 {
     public function columns(ColumnsConfigurator $grid): void
     {
@@ -30,8 +31,8 @@ final class Locales implements GridSchemaInterface
                 [
                     'route' => 'admin.locale.update',
                     'routeParameters' => ['locale' => '{uuid}'],
-                    'label' => 'core.uuid',
-                    'title' => 'core.edit',
+                    'label' => 'user.uuid',
+                    'title' => 'user.edit',
                     'class' => 'item-title',
                     'data' => '{uuid}'
                 ],
@@ -42,8 +43,8 @@ final class Locales implements GridSchemaInterface
                 [
                     'route' => 'admin.locale.update',
                     'routeParameters' => ['locale' => '{uuid}'],
-                    'label' => 'core.title',
-                    'title' => 'core.edit',
+                    'label' => 'user.title',
+                    'title' => 'user.edit',
                     'class' => 'item-title',
                     'data' => '{title}'
                 ],
@@ -53,43 +54,50 @@ final class Locales implements GridSchemaInterface
                 'label' => 'user.locale.country_code',
                 'field' => 'countryCode'
             ])
-            ->add('active', BoolColumn::class, [
-                'label' => 'user.locale.language_active',
-                'trueValue' => 'core.yes',
-                'falseValue' => 'core.no'
+            ->add('active', BadgeColumn::class, [
+                'conditions' => [
+                    'user.locale.language_active' => 'info',
+                    'user.locale.language_inactive' => 'danger'
+                ],
+                'label' => 'user.locale.language_status',
+                'data' => fn (LocaleView $row): string => $row->active
+                    ? 'user.locale.language_active'
+                    : 'user.locale.language_inactive'
             ])
-            ->add('sort', NumberColumn::class, ['label' => 'core.sort']);
+            ->add('sort', NumberColumn::class, ['label' => 'user.sort']);
     }
 
     public function filters(FiltersConfigurator $grid): void
     {
         $grid
-            ->add(
-                'search',
-                new Filter\Any(
-                    new Filter\Like('title'),
-                    new Filter\Like('code'),
-                    new Filter\Like('country_code')
-                )
-            );
+            ->search(new Filter\Any(
+                new Filter\Like('uuid'),
+                new Filter\Like('title'),
+                new Filter\Like('code'),
+                new Filter\Like('country_code')
+            ));
+
+        $grid->filter(
+            'active',
+            new Filter\Equals('active', new StringValue()),
+            'Active',
+            [1 => 'Active', 0 => 'Inactive'],
+        );
     }
 
     public function sorters(SortersConfigurator $grid): void
     {
         $grid
+            ->add('uuid', new Sorter\Sorter('uuid'))
             ->add('title', new Sorter\Sorter('title'))
             ->add('code', new Sorter\Sorter('code'))
             ->add('country_code', new Sorter\Sorter('country_code'))
+            ->add('active', new Sorter\Sorter('active'))
             ->add('sort', new Sorter\Sorter('sort'));
-    }
-
-    public function paginator(PaginatorConfigurator $grid): void
-    {
-        $grid->configure(25, [10, 25, 50, 100]);
     }
 
     public function defaults(DefaultsConfigurator $grid): void
     {
-        $grid->configure(['sort' => ['active' => 'asc', 'sort' => 'asc']]);
+        $grid->configure(['sort' => ['sort' => 'asc']]);
     }
 }

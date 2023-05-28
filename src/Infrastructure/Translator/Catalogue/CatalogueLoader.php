@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\User\Infrastructure\Shared\Translator\Catalogue;
+namespace Zentlix\User\Infrastructure\Translator\Catalogue;
 
 use Spiral\Logger\Traits\LoggerTrait;
 use Spiral\Translator\Catalogue;

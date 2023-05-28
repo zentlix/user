@@ -11,16 +11,16 @@ return static function (RoutingConfigurator $routes): void {
     $routes
         ->add('group.list', '/groups')
         ->action(GroupController::class, 'groups')
+        ->methods(['GET', 'POST']);
+    $routes
+        ->add('group.update', '/group/<group>/update')
+        ->action(LocaleController::class, 'update')
         ->methods('GET');
 
     $routes
         ->add('locale.list', '/locales')
         ->action(LocaleController::class, 'locales')
-        ->methods('GET');
-    $routes
-        ->add('locale.grid', '/locales/list')
-        ->action(LocaleController::class, 'grid')
-        ->methods('POST');
+        ->methods(['GET', 'POST']);
     $routes
         ->add('locale.update', '/locales/<locale>/update')
         ->action(LocaleController::class, 'update')

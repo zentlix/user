@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\User\Endpoint\Http\Web\Form\Admin;
+namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Auth;
 
 use Spiral\AdminPanel\Form\AbstractType;
 use Spiral\AdminPanel\Form\Type\CheckboxType;

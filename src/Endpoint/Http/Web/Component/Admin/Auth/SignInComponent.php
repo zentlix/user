@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\User\Endpoint\Http\Web\Component\Admin;
+namespace Zentlix\User\Endpoint\Http\Web\Component\Admin\Auth;
 
 use Spiral\AdminPanel\Config\AdminPanelConfig;
 use Spiral\AdminPanel\Exception\InvalidEmailException;
@@ -16,7 +16,7 @@ use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Zentlix\User\Application\User\Command\Auth\SignInCommand;
 use Zentlix\User\Domain\User\ValueObject\Email;
-use Zentlix\User\Endpoint\Http\Web\Form\Admin\SignInForm;
+use Zentlix\User\Endpoint\Http\Web\Form\Admin\Auth\SignInForm;
 
 #[Component(name: 'sign-in', template: 'forms:livewire/form')]
 final class SignInComponent extends FormComponent
@@ -28,12 +28,11 @@ final class SignInComponent extends FormComponent
     private const REMEMBER_DURATION = 'P1M';
 
     public function __construct(
-        FormFactoryInterface $formFactory,
+        private readonly FormFactoryInterface $formFactory,
         private readonly CommandBusInterface $commandBus,
         private readonly SessionScope $sessionScope,
         private readonly AdminPanelConfig $config
     ) {
-        parent::__construct($formFactory);
     }
 
     public function createForm(): FormInterface

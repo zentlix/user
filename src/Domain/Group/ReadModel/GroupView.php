@@ -7,12 +7,12 @@ namespace Zentlix\User\Domain\Group\ReadModel;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Relation\HasMany;
+use Cycle\Annotated\Annotation\Relation\HasOne;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Zentlix\User\Domain\Group\Exception\TitleNotFoundException;
 use Zentlix\User\Domain\Group\Role;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
 
@@ -34,6 +34,12 @@ class GroupView
      */
     #[HasMany(target: TitleView::class, innerKey: 'uuid', outerKey: 'group')]
     public Collection $titles;
+
+    /**
+     * Localized title.
+     */
+    #[HasOne(target: TitleView::class, innerKey: 'uuid', outerKey: 'group')]
+    public ?TitleView $title = null;
 
     /**
      * @var non-empty-string
@@ -67,29 +73,5 @@ class GroupView
     public function getId(): string
     {
         return $this->uuid->toString();
-    }
-
-    /**
-     * @return non-empty-string
-     *
-     * @throws TitleNotFoundException
-     */
-    public function getTitle(UuidInterface $locale, ?UuidInterface $fallbackLocale = null): string
-    {
-        foreach ($this->titles as $lang) {
-            if ($lang->locale->equals($locale)) {
-                return $lang->title;
-            }
-        }
-
-        if ($fallbackLocale !== null) {
-            foreach ($this->titles as $lang) {
-                if ($lang->locale->equals($fallbackLocale)) {
-                    return $lang->title;
-                }
-            }
-        }
-
-        throw new TitleNotFoundException($locale->toString());
     }
 }

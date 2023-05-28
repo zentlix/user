@@ -10,7 +10,11 @@ use Spiral\Config\ConfiguratorInterface;
 use Spiral\Config\Patch\Append;
 use Spiral\Translator\Catalogue\LoaderInterface;
 use Spiral\Translator\Config\TranslatorConfig;
-use Zentlix\User\Infrastructure\Shared\Translator\Catalogue\CatalogueLoader;
+use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
+use Zentlix\User\Domain\Translator\Exception\LocaleNotFoundException;
+use Zentlix\User\Domain\Translator\TranslatorInterface;
+use Zentlix\User\Infrastructure\Translator\Catalogue\CatalogueLoader;
+use Zentlix\User\Infrastructure\Translator\Translator;
 
 final class I18nBootloader extends Bootloader
 {
@@ -19,7 +23,9 @@ final class I18nBootloader extends Bootloader
     ];
 
     protected const SINGLETONS = [
-        LoaderInterface::class => CatalogueLoader::class
+        LoaderInterface::class => CatalogueLoader::class,
+        TranslatorInterface::class => Translator::class,
+        Translator::class => Translator::class,
     ];
 
     public function __construct(
@@ -30,6 +36,20 @@ final class I18nBootloader extends Bootloader
     public function init(DirectoriesInterface $dirs): void
     {
         $this->addDirectory(\rtrim($dirs->get('vendor'), '/') . '/zentlix/user/translations');
+    }
+
+    public function boot(
+        Translator $translator,
+        LocaleRepositoryInterface $localeRepository,
+        TranslatorConfig $config
+    ): void {
+        $localeView = $localeRepository->findByCode($config->getFallbackLocale());
+
+        if ($localeView === null) {
+            throw new LocaleNotFoundException(\sprintf('The locale `%s` not found.', $config->getFallbackLocale()));
+        }
+
+        $translator->setLocaleView($localeView);
     }
 
     /**

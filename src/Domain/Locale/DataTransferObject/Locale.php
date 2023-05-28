@@ -8,6 +8,7 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints;
+use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 
 class Locale
 {
@@ -84,5 +85,18 @@ class Locale
         $this->countryCode = \strtoupper($countryCode);
 
         return $this;
+    }
+
+    public static function fromLocale(LocaleView $locale): self
+    {
+        $self = new self();
+        $self->uuid = $locale->uuid;
+        $self->title = $locale->title;
+        $self->sort = $locale->sort;
+        $self->active = $locale->active;
+        $self->code = $locale->code;
+        $self->countryCode = $locale->countryCode;
+
+        return $self;
     }
 }

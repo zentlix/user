@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\Locale\Event;
 
-final class UpdateLocaleForm
+use Zentlix\Core\Domain\Shared\Event\AbstractFormBuilderEvent;
+
+final class UpdateLocaleForm extends AbstractFormBuilderEvent
 {
 }
