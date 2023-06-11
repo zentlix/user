@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace Zentlix\User\Infrastructure\Locale\ReadModel\Projection;
 
 use Broadway\ReadModel\Projector;
-use Spiral\Broadway\EventHandling\Attribute\Listener;
+use Zentlix\Core\Attribute\ReadModel\Projection;
+use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Locale\Event\LocaleWasCreated;
 use Zentlix\User\Domain\Locale\Event\LocaleWasUpdated;
 use Zentlix\User\Domain\Locale\Exception\LocaleNotFoundException;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
 
-#[Listener]
+#[Projection(readEngine: ReadEngines::Cycle)]
 final class CycleLocaleProjectionFactory extends Projector
 {
     public function __construct(
@@ -46,6 +47,6 @@ final class CycleLocaleProjectionFactory extends Projector
         $readModel->active = $event->data->active;
         $readModel->sort = $event->data->sort;
 
-        $this->repository->apply();
+        $this->repository->register($readModel);
     }
 }

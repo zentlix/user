@@ -13,12 +13,19 @@ final class SidebarListener
     #[Listener]
     public function __invoke(OnBuildSidebar $event): void
     {
-        $users = $event->menu->addChild('user.user.users')->setExtra('icon', Icons::o_user_group);
-        $users->addChild('user.group.groups', ['route' => 'admin.group.list']);
-        $users->addChild('user.user.users', ['route' => 'admin.user.list']);
+        $usersRoot = $event->menu->addChild('user.user.users')->setExtra('icon', Icons::o_user_group);
 
-        $event->menu
+        $groups = $usersRoot
+            ->addChild('user.group.groups', ['route' => 'admin.group.list'])
+            ->setDisplayChildren(false);
+        $groups->addChild('user.group.update', ['route' => 'admin.group.update']);
+
+        $users = $usersRoot->addChild('user.user.users', ['route' => 'admin.user.list']);
+
+        $locale = $event->menu
             ->getChild('core.settings')
-            ?->addChild('user.locale.languages', ['route' => 'admin.locale.list']);
+            ?->addChild('user.locale.languages', ['route' => 'admin.locale.list'])
+            ->setDisplayChildren(false);
+        $locale->addChild('user.locale.update', ['route' => 'admin.locale.update']);
     }
 }

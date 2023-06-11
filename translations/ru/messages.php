@@ -1,7 +1,19 @@
 <?php
 
 return [
+    'user.login_control_panel' => 'Войти',
+    'user.symbol_code' => 'Символьный код',
+    'user.edit' => 'Редактировать',
+    'user.main' => 'Основное',
+    'user.title' => 'Название',
+    'user.sort' => 'Сортировка',
+    'user.uuid' => 'UUID',
+    'user.yes' => 'Да',
+    'user.no' => 'Нет',
     'user.group.code_already_exists' => 'Группа с символьным кодом `%code%` уже существует.',
+    'user.group.group_access' => 'Права доступа',
+    'user.group.admin_role' => 'Администратор',
+    'user.group.user_role' => 'Пользователь',
     'user.group.group_is_not_exists' => 'Группа пользователя с UUID `%uuid%` не найдена.',
     'user.group.groups' => 'Группы',
     'user.locale.code_already_exists' => 'Язык с символьным кодом `%code%` уже существует.',
@@ -9,9 +21,12 @@ return [
     'user.locale.language_code' => 'Код ISO 639-1',
     'user.locale.country_code' => 'Код страны',
     'user.locale.language_active' => 'Активен',
+    'user.locale.language_inactive' => 'Не активен',
+    'user.locale.language_status' => 'Активность',
     'user.locale.locale_is_not_exists' => 'Язык с UUID `%uuid%` не найден.',
+    'user.locale.update' => 'Редактирование языка',
+    'user.locale.updated_successfully' => 'Язык успешно обновлен.',
     'user.user.email.already_exists' => 'Пользователь с Email `%email%` уже существует.',
     'user.user.phone.already_exists' => 'Пользователь с номером телефона `%phone%` уже существует.',
     'user.user.users' => 'Пользователи',
-    'user.login_control_panel' => 'Войти'
 ];

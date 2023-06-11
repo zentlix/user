@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\Locale\Exception;
 
-class LocaleAlreadyExistsException extends \InvalidArgumentException
+use Zentlix\Core\Domain\Shared\Exception\DomainException;
+
+class LocaleAlreadyExistsException extends DomainException
 {
     public function __construct(string $message = 'The Locale already exists.')
     {

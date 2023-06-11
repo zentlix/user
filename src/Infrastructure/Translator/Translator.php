@@ -45,7 +45,11 @@ final class Translator implements TranslatorInterface
      */
     public function getAvailableLocales(): array
     {
-        return $this->localeRepository->findAll();
+        try {
+            return $this->localeRepository->findAll();
+        } catch (\Throwable) {
+            return [];
+        }
     }
 
     public function getLocaleView(): LocaleView

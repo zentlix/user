@@ -10,6 +10,7 @@ use Spiral\Console\Attribute\Question;
 use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Zentlix\Core\Domain\Shared\Exception\DomainException;
 use Zentlix\User\Application\Locale\Command\CreateCommand;
 
 /**
@@ -25,7 +26,7 @@ final class CreateLocaleCommand extends Command
      * @var non-empty-string
      */
     #[Argument(description: 'Locale title')]
-    #[Question(question: 'Please, provide the Locale title.')]
+    #[Question(question: 'Please, provide the Locale title')]
     private string $title;
 
     protected function perform(CommandBusInterface $commandBus): int
@@ -78,7 +79,7 @@ final class CreateLocaleCommand extends Command
 
         try {
             $commandBus->dispatch($command);
-        } catch (\Throwable $exception) {
+        } catch (DomainException $exception) {
             $this->error($exception->getMessage());
 
             return self::FAILURE;

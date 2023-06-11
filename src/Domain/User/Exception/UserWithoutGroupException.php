@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\User\Exception;
 
-final class UserWithoutGroupException extends \InvalidArgumentException
+use Zentlix\Core\Domain\Shared\Exception\DomainException;
+
+final class UserWithoutGroupException extends DomainException
 {
 }

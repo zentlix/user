@@ -5,13 +5,14 @@ declare(strict_types=1);
 namespace Zentlix\User\Infrastructure\Group\ReadModel\Projection;
 
 use Broadway\ReadModel\Projector;
-use Spiral\Broadway\EventHandling\Attribute\Listener;
+use Zentlix\Core\Attribute\ReadModel\Projection;
+use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Group\Event\GroupWasCreated;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
 use Zentlix\User\Domain\Group\ReadModel\TitleView;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
 
-#[Listener]
+#[Projection(readEngine: ReadEngines::Cycle)]
 final class CycleGroupProjectionFactory extends Projector
 {
     public function __construct(

@@ -6,7 +6,8 @@ namespace Zentlix\User\Infrastructure\User\ReadModel\Projection;
 
 use Broadway\ReadModel\Projector;
 use Doctrine\Common\Collections\ArrayCollection;
-use Spiral\Broadway\EventHandling\Attribute\Listener;
+use Zentlix\Core\Attribute\ReadModel\Projection;
+use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
 use Zentlix\User\Domain\User\Event\UserSignedIn;
@@ -14,7 +15,7 @@ use Zentlix\User\Domain\User\Event\UserWasCreated;
 use Zentlix\User\Domain\User\ReadModel\UserView;
 use Zentlix\User\Infrastructure\User\ReadModel\Repository\CycleUserRepository;
 
-#[Listener]
+#[Projection(readEngine: ReadEngines::Cycle)]
 final class CycleUserProjectionFactory extends Projector
 {
     public function __construct(

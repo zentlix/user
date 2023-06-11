@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Domain\Group\Exception;
 
-class GroupAlreadyExistsException extends \InvalidArgumentException
+use Zentlix\Core\Domain\Shared\Exception\DomainException;
+
+class GroupAlreadyExistsException extends DomainException
 {
     public function __construct(string $message = 'The Group already exists.')
     {
