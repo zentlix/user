@@ -6,6 +6,7 @@ namespace Zentlix\User\Infrastructure\Group\ReadModel\Repository;
 
 use Cycle\Database\Injection\Parameter;
 use Cycle\Database\Query\SelectQuery;
+use Cycle\ORM\Select;
 use Ramsey\Uuid\UuidInterface;
 use Zentlix\Core\Infrastructure\Shared\ReadModel\Repository\CycleRepository;
 use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
@@ -14,11 +15,6 @@ use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
 
-/**
- * @method GroupView|null findOne(array $scope = [])
- * @method GroupView|null findByPK($id)
- * @method GroupView[] findAll(array $scope = [], array $orderBy = [])
- */
 final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupInterface, CheckGroupByCodeInterface
 {
     /**
@@ -91,6 +87,19 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
     public function add(GroupView $groupRead): void
     {
         $this->register($groupRead);
+    }
+
+    public function findOne(array $scope = []): ?GroupView
+    {
+        return $this->withLocalized()->fetchOne($scope);
+    }
+
+    public function withLocalized(): Select
+    {
+        return $this
+            ->select()
+            ->with('title')
+            ->where('title.locale', $this->currentLocale->getId());
     }
 
     /**
