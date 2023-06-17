@@ -31,12 +31,15 @@ final class Group extends EventSourcedAggregateRoot
      */
     private int $sort;
 
-    private Role $role;
+    /**
+     * @var non-empty-string
+     */
+    private string $access;
 
     /**
      * @var non-empty-string[]
      */
-    private array $rights = [];
+    private array $permissions = [];
 
     public static function create(GroupDTO $data, GroupValidatorInterface $validator): self
     {
@@ -71,17 +74,20 @@ final class Group extends EventSourcedAggregateRoot
         return $this->code;
     }
 
-    public function getRole(): Role
+    /**
+     * @return non-empty-string
+     */
+    public function getAccess(): string
     {
-        return $this->role;
+        return $this->access;
     }
 
     /**
      * @return non-empty-string[]
      */
-    public function getRights(): array
+    public function getPermissions(): array
     {
-        return $this->rights;
+        return $this->permissions;
     }
 
     /**
@@ -102,12 +108,7 @@ final class Group extends EventSourcedAggregateRoot
 
     public function isAdminGroup(): bool
     {
-        return $this->role->value === Role::Admin->value;
-    }
-
-    public function isAccessGranted(): bool
-    {
-        return true; // TODO
+        return $this->access === DefaultAccess::Admin->value;
     }
 
     public function getAggregateRootId(): string
@@ -120,8 +121,8 @@ final class Group extends EventSourcedAggregateRoot
         $this->uuid = $event->data->uuid;
         $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
         $this->code = $event->data->code;
-        $this->role = $event->data->getRole();
+        $this->access = $event->data->access;
         $this->sort = $event->data->sort;
-        $this->rights = $event->data->rights;
+        $this->permissions = $event->data->permissions;
     }
 }

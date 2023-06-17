@@ -6,9 +6,9 @@ namespace Zentlix\User\Domain\Group\ReadModel;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Cycle\Annotated\Annotation\Table\Index;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
     schema: 'GroupTitleView',
@@ -16,7 +16,7 @@ use Ramsey\Uuid\UuidInterface;
     required: ['uuid', 'title', 'group', 'locale'],
     type: 'object',
 )]
-#[Entity(role: 'group_title', table: 'zx_group_titles')]
+#[Entity(role: 'group_title', table: Table::GroupTitles->value)]
 class TitleView
 {
     /**

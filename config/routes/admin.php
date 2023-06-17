@@ -14,7 +14,7 @@ return static function (RoutingConfigurator $routes): void {
         ->methods(['GET', 'POST']);
     $routes
         ->add('group.update', '/group/<group>/update')
-        ->action(LocaleController::class, 'update')
+        ->action(GroupController::class, 'update')
         ->methods('GET');
 
     $routes

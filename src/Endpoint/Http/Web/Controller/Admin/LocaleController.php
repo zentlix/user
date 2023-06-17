@@ -8,15 +8,19 @@ use Cycle\ORM\Select;
 use Spiral\AdminPanel\Attribute\DataGrid;
 use Spiral\AdminPanel\Resource\ListResource;
 use Spiral\AdminPanel\Resource\UpdateResource;
+use Spiral\Domain\Annotation\Guarded;
+use Spiral\Domain\Annotation\GuardNamespace;
 use Spiral\Http\Request\InputManager;
 use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 use Zentlix\User\Endpoint\Http\Web\Component\Admin\Locale\UpdateComponent;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
 
+#[GuardNamespace('user_permissions.locale')]
 final class LocaleController extends AbstractRenderController
 {
     #[DataGrid(name: 'admin-locales')]
+    #[Guarded(permission: 'view')]
     public function locales(CycleLocaleRepository $locales, InputManager $request): ListResource|Select
     {
         if ($request->isAjax()) {
@@ -30,6 +34,7 @@ final class LocaleController extends AbstractRenderController
         );
     }
 
+    #[Guarded(permission: 'update')]
     public function update(LocaleView $locale): UpdateResource
     {
         return new UpdateResource(

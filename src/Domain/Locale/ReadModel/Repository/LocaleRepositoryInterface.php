@@ -59,4 +59,6 @@ interface LocaleRepositoryInterface
      * @throws LocaleNotFoundException
      */
     public function getByCode(string $code): LocaleView;
+
+    public function isAvailable(): bool;
 }

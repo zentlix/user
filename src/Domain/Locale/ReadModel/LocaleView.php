@@ -12,6 +12,7 @@ use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
     schema: 'LocaleView',
@@ -19,7 +20,7 @@ use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepositor
     required: ['uuid', 'title', 'code', 'country_code', 'active', 'sort'],
     type: 'object',
 )]
-#[Entity(role: 'locale', repository: CycleLocaleRepository::class, table: 'zx_locales')]
+#[Entity(role: 'locale', repository: CycleLocaleRepository::class, table: Table::Locales->value)]
 #[Index(columns: ['code'], unique: true)]
 class LocaleView
 {

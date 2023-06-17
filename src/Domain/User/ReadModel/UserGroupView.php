@@ -6,14 +6,11 @@ namespace Zentlix\User\Domain\User\ReadModel;
 
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
-use Ramsey\Uuid\UuidInterface;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
-#[Entity(role: 'user_group', table: 'zx_user_groups')]
+#[Entity(role: 'user_group', table: Table::UserGroups->value)]
 class UserGroupView
 {
-    #[Column(type: 'uuid', name: 'user_uuid', primary: true)]
-    public UuidInterface $userUuid;
-
-    #[Column(type: 'uuid', name: 'group_uuid', primary: true)]
-    public UuidInterface $groupUuid;
+    #[Column(type: 'bigPrimary')]
+    public int $id;
 }

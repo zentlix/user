@@ -7,7 +7,8 @@ namespace Zentlix\User\Domain\Group\DataTransferObject;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Validator\Constraints;
-use Zentlix\User\Domain\Group\Role;
+use Zentlix\User\Domain\Group\DefaultGroups;
+use Zentlix\User\Domain\Group\ReadModel\GroupView;
 
 final class Group
 {
@@ -29,13 +30,17 @@ final class Group
     #[Constraints\Type('int')]
     public int $sort = 1;
 
-    private Role $role = Role::User;
+    /**
+     * @var non-empty-string
+     */
+    #[Constraints\NotBlank]
+    public string $access;
 
     /**
      * @var non-empty-string[]
      */
     #[Constraints\Type('array')]
-    public array $rights = [];
+    public array $permissions = [];
 
     /**
      * @var Title[]
@@ -47,6 +52,7 @@ final class Group
     public function __construct()
     {
         $this->uuid = Uuid::uuid4();
+        $this->access = DefaultGroups::Administrators->value;
     }
 
     /**
@@ -73,16 +79,18 @@ final class Group
         return $this->titles;
     }
 
-    /**
-     * @param non-empty-string|Role $role
-     */
-    public function setRole(string|Role $role): void
+    public static function fromGroup(GroupView $group): self
     {
-        $this->role = \is_string($role) ? Role::from($role) : $role;
-    }
+        $self = new self();
+        $self->uuid = $group->uuid;
+        $self->code = $group->code;
+        $self->sort = $group->sort;
+        $self->access = $group->access;
+        $self->permissions = $group->permissions;
+        foreach ($group->getTitles() as $title) {
+            $self->setTitle($title->title, $title->locale);
+        }
 
-    public function getRole(): Role
-    {
-        return $this->role;
+        return $self;
     }
 }

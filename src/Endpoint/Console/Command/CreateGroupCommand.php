@@ -9,7 +9,7 @@ use Spiral\Console\Command;
 use Spiral\Cqrs\CommandBusInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Zentlix\User\Application\Group\Command\CreateCommand;
-use Zentlix\User\Domain\Group\Role;
+use Zentlix\User\Domain\Group\DefaultAccess;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
 
 /**
@@ -54,13 +54,13 @@ final class CreateGroupCommand extends Command
             return $code;
         });
         $command->data->code = $code;
-        /** @var non-empty-string $role */
-        $role = $this->output->choice(
-            'Please, select a group role',
-            [Role::Admin->value, Role::User->value],
+        /** @var non-empty-string $access */
+        $access = $this->output->choice(
+            'Please, select a group access',
+            [DefaultAccess::Admin->value, DefaultAccess::User->value],
             0
         );
-        $command->data->setRole($role);
+        $command->data->access = $access;
         /** @var positive-int $sort */
         $sort = $this->output->ask('Group sort', '1', function (mixed $sort) {
             if (empty($sort) || (int) $sort < 1) {
@@ -90,7 +90,7 @@ final class CreateGroupCommand extends Command
         }
         $this->output->text([
             \sprintf('Symbol code: %s', $command->data->code),
-            \sprintf('Role: %s', $command->data->getRole()->value),
+            \sprintf('Access: %s', $command->data->access),
             \sprintf('Sort: %s', $command->data->sort),
         ]);
 

@@ -36,4 +36,6 @@ interface GroupRepositoryInterface
      * @param non-empty-string $code
      */
     public function getByCode(string $code): GroupView;
+
+    public function isAvailable(): bool;
 }

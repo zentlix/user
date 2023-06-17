@@ -13,8 +13,8 @@ use Doctrine\Common\Collections\Collection;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Zentlix\User\Domain\Group\Role;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
     schema: 'GroupView',
@@ -22,7 +22,7 @@ use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
     required: ['uuid', 'titles', 'code', 'sort'],
     type: 'object',
 )]
-#[Entity(role: 'group', repository: CycleGroupRepository::class, table: 'zx_groups')]
+#[Entity(role: 'group', repository: CycleGroupRepository::class, table: Table::Groups->value)]
 class GroupView
 {
     #[OA\Property(property: 'uuid', type: 'string', example: '7be33fd4-ff46-11ea-adc1-0242ac120002')]
@@ -33,7 +33,7 @@ class GroupView
      * @var Collection<int, TitleView>
      */
     #[HasMany(target: TitleView::class, innerKey: 'uuid', outerKey: 'group')]
-    public Collection $titles;
+    private Collection $titles;
 
     /**
      * Localized title.
@@ -54,15 +54,15 @@ class GroupView
     public int $sort;
 
     #[Ignore]
-    #[Column(type: 'string', typecast: [Role::class, 'typecast'])]
-    public Role $role;
+    #[Column(type: 'string')]
+    public string $access;
 
     /**
      * @var string[]
      */
     #[Ignore]
     #[Column(type: 'json', typecast: 'json')]
-    public array $rights = [];
+    public array $permissions = [];
 
     public function __construct()
     {
@@ -73,5 +73,22 @@ class GroupView
     public function getId(): string
     {
         return $this->uuid->toString();
+    }
+
+    public function getTitles(): Collection
+    {
+        return $this->titles;
+    }
+
+    /**
+     * @param TitleView[] $titles
+     */
+    public function setTitles(array $titles): void
+    {
+        $this->titles->clear();
+
+        foreach ($titles as $title) {
+            $this->titles->add($title);
+        }
     }
 }

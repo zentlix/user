@@ -16,6 +16,7 @@ use Spiral\AdminPanel\DataGrid\SortersConfigurator;
 use Spiral\DataGrid\Specification\Filter;
 use Spiral\DataGrid\Specification\Sorter\Sorter;
 use Zentlix\Core\Endpoint\Http\Web\DataGrid\AbstractGridSchema;
+use Zentlix\User\Domain\Group\DefaultAccess;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
 use Zentlix\User\Domain\Group\Role;
 
@@ -50,11 +51,11 @@ final class Groups extends AbstractGridSchema
                 ],
             )
             ->add('code', TextColumn::class, ['label' => 'user.symbol_code'])
-            ->add('role', MapColumn::class, [
+            ->add('access', MapColumn::class, [
                 'label' => 'user.group.group_access',
                 'map' => [
-                    Role::User->value => 'user.group.user_role',
-                    Role::Admin->value => 'user.group.admin_role'
+                    DefaultAccess::User->value => 'user.group.user_role',
+                    DefaultAccess::Admin->value => 'user.group.admin_role'
                 ]
             ])
             ->add('sort', NumberColumn::class, ['label' => 'user.sort']);
@@ -66,7 +67,7 @@ final class Groups extends AbstractGridSchema
             ->search(new Filter\Any(
                 new Filter\Like('title'),
                 new Filter\Like('code'),
-                new Filter\Like('country_code')
+                new Filter\Like('access')
             ));
     }
 
@@ -75,7 +76,7 @@ final class Groups extends AbstractGridSchema
         $grid->add('uuid', new Sorter('uuid'));
         $grid->add('title', new Sorter('title.title'));
         $grid->add('code', new Sorter('code'));
-        $grid->add('role', new Sorter('role'));
+        $grid->add('access', new Sorter('access'));
         $grid->add('sort', new Sorter('sort'));
     }
 

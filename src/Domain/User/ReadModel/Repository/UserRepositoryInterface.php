@@ -36,4 +36,6 @@ interface UserRepositoryInterface extends UserProviderInterface
      * @psalm-return ($email is array ? array : ?UserView)
      */
     public function findByEmail(Email|array $email): UserView|array|null;
+
+    public function isAvailable(): bool;
 }

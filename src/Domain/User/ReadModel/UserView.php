@@ -10,6 +10,7 @@ use Cycle\Annotated\Annotation\Relation\BelongsTo;
 use Cycle\Annotated\Annotation\Relation\Embedded;
 use Cycle\Annotated\Annotation\Relation\ManyToMany;
 use Cycle\Annotated\Annotation\Table\Index;
+use Cycle\ORM\Collection\Pivoted\PivotedCollection;
 use Doctrine\Common\Collections\Collection;
 use libphonenumber\PhoneNumber;
 use OpenApi\Attributes as OA;
@@ -17,13 +18,14 @@ use Ramsey\Uuid\UuidInterface;
 use Spiral\AdminPanel\Security\UserInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Zentlix\User\Domain\Group\DefaultGroups;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
-use Zentlix\User\Domain\Group\Role;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 use Zentlix\User\Domain\User\ResetEmail;
 use Zentlix\User\Domain\User\ResetPassword;
 use Zentlix\User\Domain\User\Status;
 use Zentlix\User\Domain\User\ValueObject\Email;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 use Zentlix\User\Infrastructure\User\ReadModel\Repository\CycleUserRepository;
 
 #[OA\Schema(
@@ -34,7 +36,7 @@ use Zentlix\User\Infrastructure\User\ReadModel\Repository\CycleUserRepository;
 )]
 #[Index(columns: ['email'], unique: true)]
 #[Index(columns: ['phone'], unique: true)]
-#[Entity(role: 'user', repository: CycleUserRepository::class, table: 'zx_users')]
+#[Entity(role: 'user', repository: CycleUserRepository::class, table: Table::Users->value)]
 class UserView implements UserInterface
 {
     #[OA\Property(property: 'uuid', type: 'string', example: '7be33fd4-ff46-11ea-adc1-0242ac120002')]
@@ -81,13 +83,11 @@ class UserView implements UserInterface
      */
     #[ManyToMany(
         target: GroupView::class,
-        innerKey: 'uuid',
-        outerKey: 'uuid',
-        throughInnerKey: 'user_uuid',
-        throughOuterKey: 'group_uuid',
-        through: UserGroupView::class
+        through: UserGroupView::class,
+        collection: 'doctrine',
+        load: 'eager'
     )]
-    public Collection $groups;
+    public PivotedCollection $groups;
 
     #[OA\Property(
         property: 'status',
@@ -122,6 +122,7 @@ class UserView implements UserInterface
 
     public function __construct()
     {
+        $this->groups = new PivotedCollection();
         $this->resetPassword = new ResetPassword();
         $this->resetEmail = new ResetEmail();
     }
@@ -147,11 +148,11 @@ class UserView implements UserInterface
         $roles = [];
         /** @var GroupView $group */
         foreach ($this->groups as $group) {
-            $roles[] = $group->role->value;
+            $roles[] = $group->code;
         }
 
         // guarantee every user at least has ROLE_USER
-        $roles[] = Role::User->value;
+        $roles[] = DefaultGroups::Users->value;
 
         return \array_unique($roles);
     }
@@ -159,7 +160,7 @@ class UserView implements UserInterface
     #[Ignore]
     public function isAdmin(): bool
     {
-        return \in_array(Role::Admin->value, $this->getRoles(), true);
+        return \in_array(DefaultGroups::Administrators->value, $this->getRoles(), true);
     }
 
     public function eraseCredentials(): void

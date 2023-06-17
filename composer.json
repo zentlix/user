@@ -4,7 +4,7 @@
     "description": "Provides the ability to manage users, access rights.",
     "license": "MIT",
     "require": {
-        "php": "^8.1",
+        "php": "^8.2",
         "spiral/console": "^3.7",
         "spiral/logger": "^3.7",
         "spiral/translator": "^3.7",
