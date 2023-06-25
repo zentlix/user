@@ -38,4 +38,16 @@ return static function (RoutingConfigurator $routes): void {
         ->add('user.list', '/users')
         ->action(UserController::class, 'users')
         ->methods(['GET', 'POST']);
+    $routes
+        ->add('user.create', '/user/create')
+        ->action(UserController::class, 'create')
+        ->methods(['GET', 'POST']);
+    $routes
+        ->add('user.update', '/user/<user>/update')
+        ->action(UserController::class, 'update')
+        ->methods(['GET', 'POST']);
+    $routes
+        ->add('user.delete', '/user/<user>/delete')
+        ->action(UserController::class, 'delete')
+        ->methods('DELETE');
 };

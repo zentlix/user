@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Spiral\AdminPanel\Attribute\DataGrid;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Domain\Annotation\GuardNamespace;
-use Spiral\Http\Request\InputManager;
 use Zentlix\Core\Domain\Shared\Exception\DomainException;
 use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
 use Zentlix\User\Application\Locale\Command\UpdateCommand;
@@ -23,9 +22,9 @@ final class LocaleController extends AbstractRenderController
 {
     #[DataGrid(name: 'admin-locales')]
     #[Guarded(permission: 'view')]
-    public function locales(CycleLocaleRepository $locales, InputManager $request): string|Select
+    public function locales(CycleLocaleRepository $locales): string|Select
     {
-        if ($request->isAjax()) {
+        if ($this->input->isAjax()) {
             return $locales->select();
         }
 

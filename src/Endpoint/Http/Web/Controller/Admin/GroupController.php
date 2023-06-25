@@ -9,7 +9,6 @@ use Psr\Http\Message\ResponseInterface;
 use Spiral\AdminPanel\Attribute\DataGrid;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Domain\Annotation\GuardNamespace;
-use Spiral\Http\Request\InputManager;
 use Zentlix\Core\Domain\Shared\Exception\DomainException;
 use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
 use Zentlix\User\Application\Group\Command\CreateCommand;
@@ -26,9 +25,9 @@ final class GroupController extends AbstractRenderController
 {
     #[DataGrid(name: 'admin-groups')]
     #[Guarded(permission: 'view')]
-    public function groups(CycleGroupRepository $groups, InputManager $request): string|Select
+    public function groups(CycleGroupRepository $groups): string|Select
     {
-        if ($request->isAjax()) {
+        if ($this->input->isAjax()) {
             return $groups->withLocalized();
         }
 

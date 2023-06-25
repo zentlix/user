@@ -1,0 +1,22 @@
+{% extends 'admin:layout/page.twig' %}
+
+{% block title %}{{ 'user.user.users' | trans }}{% endblock %}
+
+{% block body %}
+    <div class="sf-heading">
+        <nav class="sf-breadcrumb" aria-label="breadcrumb">
+            <ul class="sf-breadcrumb__list">
+                <li class="sf-breadcrumb__item"><a href="{{ path('admin.dashboard') }}">{{ 'user.dashboard' | trans }}</a></li>
+                <li class="sf-breadcrumb__item">{{ 'user.user.users' | trans }}</li>
+                <li class="sf-breadcrumb__item active" aria-current="page">{{ 'user.user.users' | trans }}</li>
+            </ul>
+        </nav>
+        <h1>{{ 'user.user.users' | trans }}</h1>
+        <a href="{{ path('admin.user.create') }}" class="btn btn-primary">
+            {{ 'user.user.create' | trans }}
+        </a>
+    </div>
+    <div class="sf-main__wrapper">
+        {{ dataGrid('admin-users', path('admin.user.list')) }}
+    </div>
+{% endblock %}

@@ -18,7 +18,6 @@ use Spiral\DataGrid\Specification\Sorter\Sorter;
 use Zentlix\Core\Endpoint\Http\Web\DataGrid\AbstractGridSchema;
 use Zentlix\User\Domain\Group\DefaultAccess;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
-use Zentlix\User\Domain\Group\Role;
 
 #[GridSchema('admin-groups')]
 final class Groups extends AbstractGridSchema
