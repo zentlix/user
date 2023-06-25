@@ -118,7 +118,9 @@ final class User
             return $this;
         }
 
-        $this->phone = $phone instanceof PhoneNumber ? $phone : PhoneNumberUtil::getInstance()->parse($phone);
+        $this->phone = $phone instanceof PhoneNumber
+            ? $phone
+            : PhoneNumberUtil::getInstance()->parse($phone, PhoneNumberUtil::UNKNOWN_REGION);
 
         return $this;
     }

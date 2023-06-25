@@ -85,7 +85,7 @@ final class CreateUserCommand extends Command
         $command->data->status = Status::from((string) $this->output->choice('Please, select user status', [
             Status::Active->value,
             Status::Blocked->value,
-            Status::Wait->value,
+            Status::Waiting->value,
         ], 0));
 
         try {

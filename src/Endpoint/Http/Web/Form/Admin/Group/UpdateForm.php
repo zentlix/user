@@ -8,7 +8,6 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\AdminPanel\Form\Type;
 use Spiral\Security\PermissionsInterface;
 use Spiral\Symfony\Form\Attribute\FormType;
-use Spiral\Translator\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -16,6 +15,7 @@ use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\DefaultAccess;
 use Zentlix\User\Domain\Group\DefaultGroups;
 use Zentlix\User\Domain\Group\Event\UpdateGroupForm;
+use Zentlix\User\Domain\Translator\TranslatorInterface;
 
 #[FormType]
 final class UpdateForm extends GroupForm

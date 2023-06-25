@@ -8,7 +8,7 @@ enum Status: string
 {
     case Active = 'active';
     case Blocked = 'blocked';
-    case Wait = 'wait';
+    case Waiting = 'waiting';
 
     public static function typecast(string $value): self
     {

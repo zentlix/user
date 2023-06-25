@@ -50,7 +50,7 @@ final class Users extends AbstractGridSchema
             ->add('phone', TextColumn::class, [
                 'label' => 'user.phone',
                 'data' => fn (UserView $row): string => $row->phone !== null
-                    ? PhoneNumberUtil::getInstance()->format($row->phone, PhoneNumberFormat::E164)
+                    ? PhoneNumberUtil::getInstance()->format($row->phone, PhoneNumberFormat::INTERNATIONAL)
                     : ''
             ])
             ->add('firstName', TextColumn::class, ['label' => 'user.user.first_name'])

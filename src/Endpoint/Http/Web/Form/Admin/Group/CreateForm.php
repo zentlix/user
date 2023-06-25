@@ -6,11 +6,11 @@ namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Group;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\Symfony\Form\Attribute\FormType;
-use Spiral\Translator\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\Event\CreateGroupForm;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
+use Zentlix\User\Domain\Translator\TranslatorInterface;
 
 #[FormType]
 final class CreateForm extends GroupForm

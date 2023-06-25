@@ -7,11 +7,11 @@ namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Group;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\AdminPanel\Form\Type;
 use Spiral\Symfony\Form\AbstractType;
-use Spiral\Translator\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\DefaultAccess;
+use Zentlix\User\Domain\Translator\TranslatorInterface;
 
 abstract class GroupForm extends AbstractType
 {
