@@ -13,9 +13,17 @@ return static function (RoutingConfigurator $routes): void {
         ->action(GroupController::class, 'groups')
         ->methods(['GET', 'POST']);
     $routes
+        ->add('group.create', '/group/create')
+        ->action(GroupController::class, 'create')
+        ->methods(['GET', 'POST']);
+    $routes
         ->add('group.update', '/group/<group>/update')
         ->action(GroupController::class, 'update')
-        ->methods('GET');
+        ->methods(['GET', 'POST']);
+    $routes
+        ->add('group.delete', '/group/<group>/delete')
+        ->action(GroupController::class, 'delete')
+        ->methods('DELETE');
 
     $routes
         ->add('locale.list', '/locales')
@@ -24,10 +32,10 @@ return static function (RoutingConfigurator $routes): void {
     $routes
         ->add('locale.update', '/locales/<locale>/update')
         ->action(LocaleController::class, 'update')
-        ->methods('GET');
+        ->methods(['GET', 'POST']);
 
     $routes
         ->add('user.list', '/users')
         ->action(UserController::class, 'users')
-        ->methods('GET');
+        ->methods(['GET', 'POST']);
 };

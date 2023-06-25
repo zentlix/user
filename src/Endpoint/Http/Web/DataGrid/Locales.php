@@ -80,8 +80,8 @@ final class Locales extends AbstractGridSchema
         $grid->filter(
             'active',
             new Filter\Equals('active', new StringValue()),
-            'Active',
-            [1 => 'Active', 0 => 'Inactive'],
+            'user.locale.language_active',
+            [null => 'user.all', 1 => 'user.locale.language_active', 0 => 'user.locale.language_inactive']
         );
     }
 

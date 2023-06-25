@@ -7,15 +7,14 @@ namespace Zentlix\User\Application\Group\Command;
 use Spiral\Cqrs\Attribute\CommandHandler;
 use Zentlix\User\Domain\Group\Exception\DuplicateCodeException;
 use Zentlix\User\Domain\Group\Exception\GroupValidationException;
-use Zentlix\User\Domain\Group\Group;
 use Zentlix\User\Domain\Group\Repository\GroupRepositoryInterface;
 use Zentlix\User\Domain\Group\Service\GroupValidatorInterface;
 use Zentlix\User\Domain\Locale\Exception\LocaleNotFoundException;
 
-final readonly class CreateHandler
+final readonly class UpdateHandler
 {
     public function __construct(
-        private GroupRepositoryInterface $groupRepository,
+        private GroupRepositoryInterface $repository,
         private GroupValidatorInterface $validator
     ) {
     }
@@ -26,8 +25,12 @@ final readonly class CreateHandler
      * @throws LocaleNotFoundException
      */
     #[CommandHandler]
-    public function __invoke(CreateCommand $command): void
+    public function __invoke(UpdateCommand $command): void
     {
-        $this->groupRepository->store(Group::create($command->data, $this->validator));
+        $group = $this->repository->get($command->data->uuid);
+
+        $group->update($command->data, $this->validator);
+
+        $this->repository->store($group);
     }
 }

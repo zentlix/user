@@ -39,7 +39,7 @@ final class UniquePhoneSpecification extends AbstractSpecification implements Un
         if ($this->checkUserByPhone->existsPhone($value)) {
             throw new DuplicatePhoneException($this->translator->trans(
                 'user.user.phone.already_exists',
-                ['%phone%' => PhoneNumberUtil::getInstance()->format($value, PhoneNumberFormat::E164)]
+                ['phone' => PhoneNumberUtil::getInstance()->format($value, PhoneNumberFormat::E164)]
             ));
         }
 

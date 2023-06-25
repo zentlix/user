@@ -50,7 +50,7 @@ final class ExistsGroupSpecification extends AbstractSpecification implements Ex
         foreach ($value as $uuid) {
             if (!\in_array($uuid->toString(), $groups, true)) {
                 throw new GroupNotFoundException(
-                    $this->translator->trans('user.group.group_is_not_exists', ['%uuid%' => $uuid->toString()])
+                    $this->translator->trans('user.group.group_is_not_exists', ['uuid' => $uuid->toString()])
                 );
             }
         }

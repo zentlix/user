@@ -9,8 +9,13 @@ use Ramsey\Uuid\UuidInterface;
 use Zentlix\User\Domain\Group\DataTransferObject\Group as GroupDTO;
 use Zentlix\User\Domain\Group\DataTransferObject\Title as TitleDTO;
 use Zentlix\User\Domain\Group\Event\GroupWasCreated;
+use Zentlix\User\Domain\Group\Event\GroupWasDeleted;
+use Zentlix\User\Domain\Group\Event\GroupWasUpdated;
+use Zentlix\User\Domain\Group\Exception\DuplicateCodeException;
+use Zentlix\User\Domain\Group\Exception\GroupValidationException;
 use Zentlix\User\Domain\Group\Exception\TitleNotFoundException;
 use Zentlix\User\Domain\Group\Service\GroupValidatorInterface;
+use Zentlix\User\Domain\Locale\Exception\LocaleNotFoundException;
 
 final class Group extends EventSourcedAggregateRoot
 {
@@ -41,6 +46,11 @@ final class Group extends EventSourcedAggregateRoot
      */
     private array $permissions = [];
 
+    /**
+     * @throws GroupValidationException
+     * @throws DuplicateCodeException
+     * @throws LocaleNotFoundException
+     */
     public static function create(GroupDTO $data, GroupValidatorInterface $validator): self
     {
         $validator->preCreate($data);
@@ -49,6 +59,23 @@ final class Group extends EventSourcedAggregateRoot
         $self->apply(new GroupWasCreated($data));
 
         return $self;
+    }
+
+    /**
+     * @throws GroupValidationException
+     * @throws LocaleNotFoundException
+     * @throws DuplicateCodeException
+     */
+    public function update(GroupDTO $data, GroupValidatorInterface $validator): void
+    {
+        $validator->preUpdate($data, $this);
+
+        $this->apply(new GroupWasUpdated($data));
+    }
+
+    public function delete(): void
+    {
+        $this->apply(new GroupWasDeleted($this->uuid, new \DateTimeImmutable()));
     }
 
     public function getUuid(): UuidInterface
@@ -123,6 +150,19 @@ final class Group extends EventSourcedAggregateRoot
         $this->code = $event->data->code;
         $this->access = $event->data->access;
         $this->sort = $event->data->sort;
-        $this->permissions = $event->data->permissions;
+        if ($this->access === DefaultAccess::Admin->value) {
+            $this->permissions = $event->data->permissions;
+        }
+    }
+
+    protected function applyGroupWasUpdated(GroupWasUpdated $event): void
+    {
+        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
+        $this->code = $event->data->code;
+        $this->access = $event->data->access;
+        $this->sort = $event->data->sort;
+        if ($this->access === DefaultAccess::Admin->value) {
+            $this->permissions = $event->data->permissions;
+        }
     }
 }

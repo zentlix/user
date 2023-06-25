@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Zentlix\User\Endpoint\Http\Web\Controller\Admin;
 
 use Cycle\ORM\Select;
+use Psr\Http\Message\ResponseInterface;
 use Spiral\AdminPanel\Attribute\DataGrid;
-use Spiral\AdminPanel\Resource\ListResource;
-use Spiral\AdminPanel\Resource\UpdateResource;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Domain\Annotation\GuardNamespace;
 use Spiral\Http\Request\InputManager;
+use Zentlix\Core\Domain\Shared\Exception\DomainException;
 use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
+use Zentlix\User\Application\Locale\Command\UpdateCommand;
+use Zentlix\User\Domain\Locale\DataTransferObject\Locale;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
-use Zentlix\User\Endpoint\Http\Web\Component\Admin\Locale\UpdateComponent;
+use Zentlix\User\Endpoint\Http\Web\Form\Admin\Locale\UpdateForm;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
 
 #[GuardNamespace('user_permissions.locale')]
@@ -21,28 +23,36 @@ final class LocaleController extends AbstractRenderController
 {
     #[DataGrid(name: 'admin-locales')]
     #[Guarded(permission: 'view')]
-    public function locales(CycleLocaleRepository $locales, InputManager $request): ListResource|Select
+    public function locales(CycleLocaleRepository $locales, InputManager $request): string|Select
     {
         if ($request->isAjax()) {
             return $locales->select();
         }
 
-        return new ListResource(
-            title: 'user.locale.languages',
-            grid: 'admin-locales',
-            gridRoute: 'admin.locale.list'
-        );
+        return $this->render('user:admin/locale/list');
     }
 
     #[Guarded(permission: 'update')]
-    public function update(LocaleView $locale): UpdateResource
+    public function update(LocaleView $locale): string|ResponseInterface
     {
-        return new UpdateResource(
-            title: $locale->title,
-            resourceIdentifier: $locale->getId(),
-            component: UpdateComponent::class,
-            successMessage: 'user.locale.updated_successfully',
-            redirectTo: (string) $this->router->uri('admin.locale.list')
-        );
+        try {
+            $form = $this->formFactory->create(UpdateForm::class, Locale::fromLocale($locale));
+            $form->handleRequest($this->input);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->exec(new UpdateCommand($form->getData()));
+                $this->addFlash('success', 'user.locale.updated_successfully');
+                return $this->redirectToRoute('admin.locale.list');
+            }
+        } catch (DomainException $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('admin.locale.update', ['locale' => $locale->uuid->toString()]);
+        }
+
+        return $this->render('user:admin/locale/update', [
+            'form' => $form->createView(),
+            'title' => $locale->title,
+            'uuid'  => $locale->uuid->toString()
+        ]);
     }
 }

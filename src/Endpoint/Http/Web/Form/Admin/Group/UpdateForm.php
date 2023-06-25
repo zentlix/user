@@ -7,11 +7,11 @@ namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Group;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\AdminPanel\Form\Type;
 use Spiral\Security\PermissionsInterface;
-use Spiral\Security\Rule\AllowRule;
 use Spiral\Symfony\Form\Attribute\FormType;
 use Spiral\Translator\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\DefaultAccess;
 use Zentlix\User\Domain\Group\DefaultGroups;
@@ -53,10 +53,6 @@ final class UpdateForm extends GroupForm
         ]));
 
         if ($group->access === DefaultAccess::Admin->value) {
-            foreach ($this->permissions->getPermissions($group->code) + $group->permissions as $permission => $rule) {
-                $group->permissions[\str_replace('.', ':', $permission)] = $rule === AllowRule::class;
-            }
-
             $permissions = $builder
                 ->create('permissions', Type\FormType::class, ['inherit_data' => true, 'label' => 'user.permissions']);
 
@@ -73,11 +69,25 @@ final class UpdateForm extends GroupForm
             $builder->add($permissions);
         }
 
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
+
         $this->eventDispatcher->dispatch(new UpdateGroupForm($builder));
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+    public function onPreSetData(FormEvent $event): void
     {
-        $resolver->setDefaults(['data_class' => Group::class]);
+        /** @var Group $group */
+        $group = $event->getData();
+        $group->permissions = Permissions::transformToFormData(
+            $group->permissions + $this->permissions->getPermissions($group->code)
+        );
+    }
+
+    public function onPostSubmit(FormEvent $event): void
+    {
+        /** @var Group $group */
+        $group = $event->getData();
+        $group->permissions = Permissions::transformToNormalizedData($group->permissions);
     }
 }

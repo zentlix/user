@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Locale;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Spiral\AdminPanel\Form\AbstractType;
 use Spiral\AdminPanel\Form\Type;
+use Spiral\Symfony\Form\AbstractType;
 use Spiral\Symfony\Form\Attribute\FormType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;

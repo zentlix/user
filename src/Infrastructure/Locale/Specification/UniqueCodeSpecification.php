@@ -37,7 +37,7 @@ final class UniqueCodeSpecification extends AbstractSpecification implements Uni
     {
         if ($this->checkLocaleByCode->existsCode($value)) {
             throw new DuplicateCodeException(
-                $this->translator->trans('user.locale.code_already_exists', ['%code%' => $value])
+                $this->translator->trans('user.locale.code_already_exists', ['code' => $value])
             );
         }
 

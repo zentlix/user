@@ -12,6 +12,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
+use Spiral\Security\RuleInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
 use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
@@ -53,14 +54,12 @@ class GroupView
     #[Column(type: 'integer')]
     public int $sort;
 
-    #[Ignore]
     #[Column(type: 'string')]
     public string $access;
 
     /**
-     * @var string[]
+     * @var array<non-empty-string, class-string<RuleInterface>>
      */
-    #[Ignore]
     #[Column(type: 'json', typecast: 'json')]
     public array $permissions = [];
 

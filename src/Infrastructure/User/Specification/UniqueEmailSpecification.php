@@ -36,7 +36,7 @@ final class UniqueEmailSpecification extends AbstractSpecification implements Un
     {
         if ($this->checkUserByEmail->existsEmail($value)) {
             throw new DuplicateEmailException(
-                $this->translator->trans('user.user.email.already_exists', ['%email%' => $value->getValue()])
+                $this->translator->trans('user.user.email.already_exists', ['email' => $value->getValue()])
             );
         }
 

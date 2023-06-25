@@ -8,6 +8,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
+use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleTitleRepository;
 use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
@@ -16,7 +17,7 @@ use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
     required: ['uuid', 'title', 'group', 'locale'],
     type: 'object',
 )]
-#[Entity(role: 'group_title', table: Table::GroupTitles->value)]
+#[Entity(role: 'group_title', repository: CycleTitleRepository::class, table: Table::GroupTitles->value)]
 class TitleView
 {
     /**

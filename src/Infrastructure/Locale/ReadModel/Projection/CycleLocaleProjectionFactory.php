@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Zentlix\User\Infrastructure\Locale\ReadModel\Projection;
 
 use Broadway\ReadModel\Projector;
+use Cycle\ORM\EntityManagerInterface;
 use Zentlix\Core\Attribute\ReadModel\Projection;
 use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Locale\Event\LocaleWasCreated;
@@ -17,7 +18,8 @@ use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepositor
 final class CycleLocaleProjectionFactory extends Projector
 {
     public function __construct(
-        private readonly CycleLocaleRepository $repository
+        private readonly CycleLocaleRepository $repository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -31,7 +33,8 @@ final class CycleLocaleProjectionFactory extends Projector
         $readModel->active = $event->data->active;
         $readModel->sort = $event->data->sort;
 
-        $this->repository->add($readModel);
+        $this->entityManager->persist($readModel);
+        $this->entityManager->run();
     }
 
     /**
@@ -47,6 +50,7 @@ final class CycleLocaleProjectionFactory extends Projector
         $readModel->active = $event->data->active;
         $readModel->sort = $event->data->sort;
 
-        $this->repository->register($readModel);
+        $this->entityManager->persist($readModel);
+        $this->entityManager->run();
     }
 }

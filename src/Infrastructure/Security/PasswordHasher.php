@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Zentlix\User\Infrastructure\Shared\Security;
+namespace Zentlix\User\Infrastructure\Security;
 
 use Spiral\AdminPanel\Security\PasswordHasherInterface;
 use Symfony\Component\PasswordHasher\Hasher\PasswordHasherFactoryInterface;

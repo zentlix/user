@@ -10,6 +10,7 @@ use Zentlix\User\Domain\User\User;
 use Zentlix\User\Infrastructure\Group\Bootloader as GroupBootloaders;
 use Zentlix\User\Infrastructure\Locale\Bootloader as LocaleBootloaders;
 use Zentlix\User\Infrastructure\Shared\Bootloader as SharedBootloaders;
+use Zentlix\User\Infrastructure\Security\Bootloader as SecurityBootloaders;
 use Zentlix\User\Infrastructure\User\Bootloader as UserBootloaders;
 use Zentlix\User\Infrastructure\Shared\Config\UserConfig;
 
@@ -25,7 +26,7 @@ final class UserBootloader extends Bootloader
         LocaleBootloaders\SpecificationBootloader::class,
         LocaleBootloaders\ValidationBootloader::class,
         SharedBootloaders\I18nBootloader::class,
-        SharedBootloaders\SecurityBootloader::class,
+        SecurityBootloaders\SecurityBootloader::class,
         UserBootloaders\EventSourcingBootloader::class,
         UserBootloaders\ReadModelBootloader::class,
         UserBootloaders\SpecificationBootloader::class,

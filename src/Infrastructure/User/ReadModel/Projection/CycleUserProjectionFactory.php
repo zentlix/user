@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Zentlix\User\Infrastructure\User\ReadModel\Projection;
 
 use Broadway\ReadModel\Projector;
-use Doctrine\Common\Collections\ArrayCollection;
+use Cycle\ORM\Collection\Pivoted\PivotedCollection;
+use Cycle\ORM\EntityManagerInterface;
 use Zentlix\Core\Attribute\ReadModel\Projection;
 use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
@@ -21,7 +22,8 @@ final class CycleUserProjectionFactory extends Projector
     public function __construct(
         private readonly CycleUserRepository $repository,
         private readonly GroupRepositoryInterface $groupRepository,
-        private readonly LocaleRepositoryInterface $localeRepository
+        private readonly LocaleRepositoryInterface $localeRepository,
+        private readonly EntityManagerInterface $entityManager
     ) {
     }
 
@@ -37,7 +39,7 @@ final class CycleUserProjectionFactory extends Projector
         $readModel->middleName = $event->data->middleName;
         $readModel->emailConfirmed = $event->data->emailConfirmed;
         $readModel->emailConfirmToken = $event->data->emailConfirmToken;
-        $readModel->groups = new ArrayCollection($this->groupRepository->findByUuid($event->data->getGroups()));
+        $readModel->groups = new PivotedCollection($this->groupRepository->findByUuid($event->data->getGroups()));
         $readModel->status = $event->data->status;
         $readModel->createdAt = $event->data->createdAt;
         $readModel->updatedAt = $event->data->updatedAt;
@@ -46,7 +48,8 @@ final class CycleUserProjectionFactory extends Projector
             $readModel->locale = $this->localeRepository->findByUuid($localeUuid);
         }
 
-        $this->repository->add($readModel);
+        $this->entityManager->persist($readModel);
+        $this->entityManager->run();
     }
 
     protected function applyUserSignedIn(UserSignedIn $event): void
@@ -54,6 +57,7 @@ final class CycleUserProjectionFactory extends Projector
         $user = $this->repository->getByUuid($event->uuid);
         $user->lastLogin = $event->signedInAt;
 
-        $this->repository->apply();
+        $this->entityManager->persist($user);
+        $this->entityManager->run();
     }
 }

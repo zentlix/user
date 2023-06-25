@@ -14,6 +14,7 @@ use Zentlix\User\Domain\Group\ReadModel\GroupView;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupInterface, CheckGroupByCodeInterface
 {
@@ -84,11 +85,6 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
         return $this->fetchUuid($this->getGroupByCodeQueryBuilder($code)->columns('uuid'), \is_array($code));
     }
 
-    public function add(GroupView $groupRead): void
-    {
-        $this->register($groupRead);
-    }
-
     public function findOne(array $scope = []): ?GroupView
     {
         return $this->withLocalized()->fetchOne($scope);
@@ -98,8 +94,14 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
     {
         return $this
             ->select()
-            ->with('title')
-            ->where('title.locale', $this->currentLocale->getId());
+            ->with('title', [
+                'where' => ['locale' => $this->currentLocale->getId()]
+            ]);
+    }
+
+    protected function getTable(): string
+    {
+        return Table::Groups->value;
     }
 
     /**
@@ -114,7 +116,7 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_groups')
+            ->from(Table::Groups->value)
             ->where(['uuid' => ['in' => new Parameter($uuid)]]);
     }
 
@@ -130,7 +132,7 @@ final class CycleGroupRepository extends CycleRepository implements GroupReposit
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_groups')
+            ->from(Table::Groups->value)
             ->where(['code' => ['in' => new Parameter($code)]]);
     }
 }

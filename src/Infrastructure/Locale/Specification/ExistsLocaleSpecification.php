@@ -48,7 +48,7 @@ final class ExistsLocaleSpecification extends AbstractSpecification implements E
         foreach ($value as $uuid) {
             if (!\in_array($uuid->toString(), $locales, true)) {
                 throw new LocaleNotFoundException(
-                    $this->translator->trans('user.locale.locale_is_not_exists', ['%uuid%' => $uuid->toString()])
+                    $this->translator->trans('user.locale.locale_is_not_exists', ['uuid' => $uuid->toString()])
                 );
             }
         }

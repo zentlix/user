@@ -6,6 +6,7 @@ namespace Zentlix\User\Domain\Group\DataTransferObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Spiral\Security\RuleInterface;
 use Symfony\Component\Validator\Constraints;
 use Zentlix\User\Domain\Group\DefaultGroups;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
@@ -37,7 +38,7 @@ final class Group
     public string $access;
 
     /**
-     * @var non-empty-string[]
+     * @var array<non-empty-string, class-string<RuleInterface>>
      */
     #[Constraints\Type('array')]
     public array $permissions = [];
@@ -69,6 +70,17 @@ final class Group
         $this->titles[] = $lang;
 
         return $this;
+    }
+
+    public function setTitles(array $titles): void
+    {
+        foreach ($titles as $title) {
+            if ($title instanceof Title) {
+                $this->titles[] = $title;
+            } else {
+                $this->setTitle($title['title'], $title['locale']);
+            }
+        }
     }
 
     /**

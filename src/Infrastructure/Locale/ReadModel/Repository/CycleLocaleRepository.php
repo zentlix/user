@@ -15,6 +15,7 @@ use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\CheckLocaleByCodeInterface;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\CheckLocaleInterface;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\LocaleRepositoryInterface;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 /**
  * @method LocaleView|null findOne(array $scope = [])
@@ -161,17 +162,17 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
         return $locale;
     }
 
-    public function add(LocaleView $localeRead): void
-    {
-        $this->register($localeRead);
-    }
-
     public function active(): self
     {
         $repository = clone $this;
         $repository->select->where(['active' => true]);
 
         return $repository;
+    }
+
+    protected function getTable(): string
+    {
+        return Table::Locales->value;
     }
 
     /**
@@ -186,7 +187,7 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_locales')
+            ->from(Table::Locales->value)
             ->where(['code' => ['in' => new Parameter($code)]]);
     }
 
@@ -202,7 +203,7 @@ final class CycleLocaleRepository extends CycleRepository implements LocaleRepos
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_locales')
+            ->from(Table::Locales->value)
             ->where(['uuid' => ['in' => new Parameter($uuid)]]);
     }
 }

@@ -18,6 +18,7 @@ use Zentlix\User\Domain\User\ReadModel\Repository\CheckUserByPhoneInterface;
 use Zentlix\User\Domain\User\ReadModel\Repository\UserRepositoryInterface;
 use Zentlix\User\Domain\User\ReadModel\UserView;
 use Zentlix\User\Domain\User\ValueObject\Email;
+use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 /**
  * @method UserView|null findOne(array $scope = [])
@@ -105,9 +106,9 @@ final class CycleUserRepository extends CycleRepository implements UserRepositor
         return $this->fetchUuid($this->getUserByPhoneQueryBuilder($phone)->columns('uuid'), \is_array($phone));
     }
 
-    public function add(UserView $userRead): void
+    protected function getTable(): string
     {
-        $this->register($userRead);
+        return Table::Users->value;
     }
 
     /**
@@ -122,7 +123,7 @@ final class CycleUserRepository extends CycleRepository implements UserRepositor
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_users')
+            ->from(Table::Users->value)
             ->where(['email' => ['in' => new Parameter($email)]]);
     }
 
@@ -138,7 +139,7 @@ final class CycleUserRepository extends CycleRepository implements UserRepositor
         return $this
             ->select()
             ->buildQuery()
-            ->from('zx_users')
+            ->from(Table::Users->value)
             ->where(['phone' => ['in' => new Parameter($phone)]]);
     }
 }

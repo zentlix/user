@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\Group;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
-use Spiral\AdminPanel\Form\AbstractType;
 use Spiral\AdminPanel\Form\Type;
+use Spiral\Symfony\Form\AbstractType;
 use Spiral\Translator\TranslatorInterface;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\DefaultAccess;
 
 abstract class GroupForm extends AbstractType
@@ -40,5 +42,10 @@ abstract class GroupForm extends AbstractType
             ])
             ->add('sort', Type\IntegerType::class, ['label' => 'user.sort']);
         $builder->add($main);
+    }
+
+    public function configureOptions(OptionsResolver $resolver): void
+    {
+        $resolver->setDefaults(['data_class' => Group::class]);
     }
 }
