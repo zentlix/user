@@ -59,8 +59,12 @@
     },
     "repositories": [
         {
-            "type": "path",
-            "url": "../../../marshaller"
+            "type": "vcs",
+            "url": "https://github.com/spiral/marshaller-bridge"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/spiral/marshaller"
         }
     ],
     "minimum-stability": "dev",
