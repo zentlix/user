@@ -65,6 +65,7 @@ return [
     'user.user.users' => 'Користувачі',
     'user.user.create' => 'Створити користувача',
     'user.user.creating' => 'Створення користувача',
+    'user.user.updating' => 'Редагування користувача',
     'user.user.groups' => 'Групи',
     'user.user.first_name' => 'Ім\'я',
     'user.user.last_name' => 'Прізвище',
@@ -78,5 +79,7 @@ return [
     'user.user.created_successfully' => 'Користувач успішно створений.',
     'user.user.updated_successfully' => 'Користувач успішно оновлений.',
     'user.user.deleted_successfully' => 'Користувач успішно видалений.',
+    'user.user.delete_confirm_body' => 'Ви дійсно бажаєте видалити користувача?',
+    'user.user.delete_confirm_title' => 'Видалення користувача',
     'user.validation.password_equal' => 'Пароль і підтвердження пароля не збігаються.',
 ];

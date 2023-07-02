@@ -10,12 +10,12 @@ use Zentlix\User\Domain\User\Repository\UserRepositoryInterface;
 use Zentlix\User\Domain\User\Service\UserValidatorInterface;
 use Zentlix\User\Domain\User\User;
 
-final class CreateHandler
+final readonly class CreateHandler
 {
     public function __construct(
-        private readonly UserRepositoryInterface $repository,
-        private readonly UserValidatorInterface $validator,
-        private readonly PasswordHasherFactoryInterface $passwordHasherFactory
+        private UserRepositoryInterface $repository,
+        private UserValidatorInterface $validator,
+        private PasswordHasherFactoryInterface $passwordHasherFactory
     ) {
     }
 

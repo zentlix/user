@@ -7,9 +7,16 @@ namespace Zentlix\User\Domain\User;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use libphonenumber\PhoneNumber;
 use Ramsey\Uuid\UuidInterface;
+use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
+use Zentlix\User\Domain\Locale\Exception\LocaleNotFoundException;
 use Zentlix\User\Domain\User\DataTransferObject\User as UserDTO;
 use Zentlix\User\Domain\User\Event\UserSignedIn;
 use Zentlix\User\Domain\User\Event\UserWasCreated;
+use Zentlix\User\Domain\User\Event\UserWasUpdated;
+use Zentlix\User\Domain\User\Exception\DuplicateEmailException;
+use Zentlix\User\Domain\User\Exception\DuplicatePhoneException;
+use Zentlix\User\Domain\User\Exception\UserValidationException;
+use Zentlix\User\Domain\User\Exception\UserWithoutGroupException;
 use Zentlix\User\Domain\User\Service\UserValidatorInterface;
 use Zentlix\User\Domain\User\ValueObject\Email;
 
@@ -73,6 +80,14 @@ final class User extends EventSourcedAggregateRoot
         $this->resetEmail = new ResetEmail();
     }
 
+    /**
+     * @throws UserValidationException
+     * @throws UserWithoutGroupException
+     * @throws DuplicateEmailException
+     * @throws DuplicatePhoneException
+     * @throws GroupNotFoundException
+     * @throws LocaleNotFoundException
+     */
     public static function create(UserDTO $data, UserValidatorInterface $validator): self
     {
         $validator->preCreate($data);
@@ -81,6 +96,21 @@ final class User extends EventSourcedAggregateRoot
         $user->apply(new UserWasCreated($data));
 
         return $user;
+    }
+
+    /**
+     * @throws UserValidationException
+     * @throws UserWithoutGroupException
+     * @throws DuplicateEmailException
+     * @throws DuplicatePhoneException
+     * @throws GroupNotFoundException
+     * @throws LocaleNotFoundException
+     */
+    public function update(UserDTO $data, UserValidatorInterface $validator): void
+    {
+        $validator->preUpdate($data, $this);
+
+        $this->apply(new UserWasUpdated($data));
     }
 
     public function getUuid(): UuidInterface
@@ -238,6 +268,23 @@ final class User extends EventSourcedAggregateRoot
         $this->password = $event->data->password;
         $this->locale = $event->data->getLocale();
         $this->createdAt = $event->data->createdAt;
+        $this->updatedAt = $event->data->updatedAt;
+        $this->emailConfirmed = $event->data->emailConfirmed;
+        $this->emailConfirmToken = $event->data->emailConfirmToken;
+    }
+
+    protected function applyUserWasUpdated(UserWasUpdated $event): void
+    {
+        $this->email = $event->data->getEmail();
+        $this->firstName = $event->data->firstName;
+        $this->lastName = $event->data->lastName;
+        $this->middleName = $event->data->middleName;
+        $this->groups = $event->data->getGroups();
+        $this->status = $event->data->status;
+        if (!empty($event->data->password)) {
+            $this->password = $event->data->password;
+        }
+        $this->locale = $event->data->getLocale();
         $this->updatedAt = $event->data->updatedAt;
         $this->emailConfirmed = $event->data->emailConfirmed;
         $this->emailConfirmToken = $event->data->emailConfirmToken;

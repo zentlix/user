@@ -8,10 +8,10 @@ use Spiral\AdminPanel\Security\AuthenticatorInterface;
 use Spiral\AdminPanel\Security\Credentials;
 use Spiral\Cqrs\Attribute\CommandHandler;
 
-final class SignInHandler
+final readonly class SignInHandler
 {
     public function __construct(
-        private readonly AuthenticatorInterface $authenticator
+        private AuthenticatorInterface $authenticator
     ) {
     }
 
@@ -19,8 +19,8 @@ final class SignInHandler
     public function __invoke(SignInCommand $command): void
     {
         $this->authenticator->start(
-            new Credentials($command->email->getValue(), $command->plainPassword),
-            $command->sessionExpiration
+            new Credentials($command->getEmail()->getValue(), $command->password),
+            $command->getSessionExpiration()
         );
     }
 }

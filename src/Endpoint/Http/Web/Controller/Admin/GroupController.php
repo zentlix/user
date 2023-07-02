@@ -58,7 +58,7 @@ final class GroupController extends AbstractRenderController
     public function update(GroupView $group): string|ResponseInterface
     {
         try {
-            $form = $this->formFactory->create(UpdateForm::class, Group::fromGroup($group));
+            $form = $this->formFactory->create(UpdateForm::class, Group::fromView($group));
             $form->handleRequest($this->input);
 
             if ($form->isSubmitted() && $form->isValid()) {

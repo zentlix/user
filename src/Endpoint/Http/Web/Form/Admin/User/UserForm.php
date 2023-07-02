@@ -6,6 +6,7 @@ namespace Zentlix\User\Endpoint\Http\Web\Form\Admin\User;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use Spiral\AdminPanel\Form\Type;
+use Spiral\PhoneNumber\Form\Type\PhoneNumberType;
 use Spiral\Symfony\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -51,7 +52,7 @@ abstract class UserForm extends AbstractType
                     '.' => 'second'
                 ]
             ])
-            ->add('phone', Type\TextType::class, ['label' => 'user.phone', 'required' => false])
+            ->add('phone', PhoneNumberType::class, ['label' => 'user.phone', 'required' => false])
             ->add('firstName', Type\TextType::class, [
                 'label' => 'user.user.first_name',
                 'required' => false

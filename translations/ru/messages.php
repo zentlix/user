@@ -65,6 +65,7 @@ return [
     'user.user.users' => 'Пользователи',
     'user.user.create' => 'Создать пользователя',
     'user.user.creating' => 'Создание пользователя',
+    'user.user.updating' => 'Редактирование пользователя',
     'user.user.groups' => 'Группы',
     'user.user.first_name' => 'Имя',
     'user.user.last_name' => 'Фамилия',
@@ -78,5 +79,7 @@ return [
     'user.user.created_successfully' => 'Пользователь успешно создан.',
     'user.user.updated_successfully' => 'Пользователь успешно обновлен.',
     'user.user.deleted_successfully' => 'Пользователь успешно удален.',
+    'user.user.delete_confirm_body' => 'Вы действительно хотите удалить пользователя?',
+    'user.user.delete_confirm_title' => 'Удаление пользователя',
     'user.validation.password_equal' => 'Пароль и подтверждение пароля не совпадают.',
 ];

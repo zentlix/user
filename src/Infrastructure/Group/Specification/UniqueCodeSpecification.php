@@ -10,11 +10,11 @@ use Zentlix\User\Domain\Group\Exception\DuplicateCodeException;
 use Zentlix\User\Domain\Group\Specification\UniqueCodeSpecificationInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
 
-final class UniqueCodeSpecification extends AbstractSpecification implements UniqueCodeSpecificationInterface
+final readonly class UniqueCodeSpecification extends AbstractSpecification implements UniqueCodeSpecificationInterface
 {
     public function __construct(
-        private readonly CheckGroupByCodeInterface $checkGroupByCode,
-        private readonly TranslatorInterface $translator
+        private CheckGroupByCodeInterface $checkGroupByCode,
+        private TranslatorInterface $translator
     ) {
     }
 

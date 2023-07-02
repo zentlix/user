@@ -11,11 +11,11 @@ use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupInterface;
 use Zentlix\User\Domain\Group\Specification\ExistsGroupSpecificationInterface;
 
-final class ExistsGroupSpecification extends AbstractSpecification implements ExistsGroupSpecificationInterface
+final readonly class ExistsGroupSpecification extends AbstractSpecification implements ExistsGroupSpecificationInterface
 {
     public function __construct(
-        private readonly CheckGroupInterface $checkUserGroup,
-        private readonly TranslatorInterface $translator
+        private CheckGroupInterface $checkUserGroup,
+        private TranslatorInterface $translator
     ) {
     }
 

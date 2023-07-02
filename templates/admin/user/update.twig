@@ -1,0 +1,76 @@
+{% extends 'admin:layout/page.twig' %}
+
+{% block title %}{{ title | trans }}{% endblock %}
+
+{% block body %}
+    <div class="sf-heading">
+        <nav class="sf-breadcrumb" aria-label="breadcrumb">
+            <ul class="sf-breadcrumb__list">
+                <li class="sf-breadcrumb__item"><a href="{{ path('admin.dashboard') }}">{{ 'user.dashboard' | trans }}</a></li>
+                <li class="sf-breadcrumb__item">{{ 'user.user.users' | trans }}</li>
+                <li class="sf-breadcrumb__item"><a href="{{ path('admin.user.list') }}">{{ 'user.user.users' | trans }}</a></li>
+                <li class="sf-breadcrumb__item active" aria-current="page">{{ title | trans }}</li>
+            </ul>
+        </nav>
+        <h1>{{ title | trans }}</h1>
+        <button
+            data-url="{{ path('admin.user.delete', {'user': uuid}) }}"
+            data-method="DELETE"
+            data-confirm='{{
+            {
+                'body': 'user.user.delete_confirm_body' | trans,
+                'title': 'user.user.delete_confirm_title' | trans,
+                'confirm': 'user.delete' | trans,
+                'cancel': 'user.cancel' | trans
+            } | json_encode
+            }}'
+            class="js-sf-action btn btn-danger js-sf-instance btn btn-danger"
+        >
+            <i class="fa fa-trash"></i>
+            {{ 'user.delete' | trans }}
+        </button>
+    </div>
+    <div class="sf-main__wrapper">
+        <div class="card">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" data-sf="tabnav" role="tablist">
+                    {% for code, child in form %}
+                        <li class="nav-item">
+                            <a
+                                id="#{{ code }}"
+                                class="nav-link"
+                                data-sf="tabnav-tab"
+                                data-toggle="tab"
+                                href="#{{ code }}"
+                                role="tab"
+                                aria-controls="{{ code }}"
+                                aria-selected="{% if loop.index == 1 %}true{% else %}false{% endif %}"
+                            >
+                                {{ child.vars.label | trans }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {{ form_start(form) }}
+            <div class="card-body">
+                <div class="nav-tabs border-bottom-0">
+                    <div class="tab-content">
+                        {% for code, child in form %}
+                            <div class="sf-tabnav__content tab-pane {% if loop.index == 1 %}active{% endif %}" id="{{ code }}" role="tabpanel" aria-labelledby="{{ code }}-tab">
+                                {{ form_row(child, {'label': false}) }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <button class="btn btn-sm btn-primary" type="submit">
+                    <i class="fas fa-check fa-fw"></i> {{ 'user.save' | trans }}
+                </button>
+                <a href="{{ path('admin.user.list') }}" class="btn btn-sm btn-secondary" type="button">{{ 'user.cancel' | trans }}</a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

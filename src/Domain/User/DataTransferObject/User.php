@@ -11,6 +11,8 @@ use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 use Spiral\PhoneNumber\Validator\Constraints\PhoneNumber as PhoneNumberConstraint;
 use Symfony\Component\Validator\Constraints;
+use Zentlix\User\Domain\Group\ReadModel\GroupView;
+use Zentlix\User\Domain\User\ReadModel\UserView;
 use Zentlix\User\Domain\User\Status;
 use Zentlix\User\Domain\User\ValueObject\Email;
 
@@ -44,11 +46,9 @@ final class User
     #[Constraints\Type('string')]
     public ?string $middleName = null;
 
-    /**
-     * @var UuidInterface[]
-     */
+
     #[Constraints\Type('array')]
-    protected array $groups;
+    public array $groups;
 
     #[Constraints\NotBlank]
     public Status $status = Status::Active;
@@ -56,12 +56,9 @@ final class User
     private ?UuidInterface $locale = null;
 
     /**
-     * @var non-empty-string
+     * @var non-empty-string|null
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Length(min: 6)]
-    #[Constraints\Type('string')]
-    public string $password;
+    public ?string $password = null;
 
     public \DateTimeImmutable $createdAt;
 
@@ -142,9 +139,6 @@ final class User
         return $this;
     }
 
-    /**
-     * @param array<UuidInterface|non-empty-string> $groups
-     */
     public function setGroups(array $groups): self
     {
         $this->groups = \array_map(
@@ -155,9 +149,7 @@ final class User
         return $this;
     }
 
-    /**
-     * @param non-empty-string|UuidInterface $group
-     */
+
     public function addGroup(string|UuidInterface $group): self
     {
         $this->groups[] = $group instanceof UuidInterface ? $group : Uuid::fromString($group);
@@ -171,5 +163,27 @@ final class User
     public function getGroups(): array
     {
         return $this->groups;
+    }
+
+    public static function fromView(UserView $user): self
+    {
+        $self = new self();
+        $self->uuid = $user->uuid;
+        $self->email = $user->email;
+        $self->phone = $user->phone;
+        $self->firstName = $user->firstName;
+        $self->lastName = $user->lastName;
+        $self->middleName = $user->middleName;
+        $self->groups = \array_map(static fn (GroupView $group) => $group->uuid, $user->groups->toArray());
+        $self->status = $user->status;
+        $self->locale = $user->locale?->uuid;
+        $self->password = $user->password;
+        $self->createdAt = $user->createdAt;
+        $self->updatedAt = $user->updatedAt;
+        $self->lastLogin = $user->lastLogin;
+        $self->emailConfirmed = $user->emailConfirmed;
+        $self->emailConfirmToken = $user->emailConfirmToken;
+
+        return $self;
     }
 }

@@ -18,14 +18,15 @@
         "ramsey/uuid": "^4.7",
         "doctrine/collections": "^2.1",
         "zentlix/broadway": "^1.0",
-        "zentlix/libphonenumber": "^1.1",
-        "zentlix/core": "^1.0"
+        "zentlix/libphonenumber": "^1.2",
+        "zentlix/core": "^1.0",
+        "spiral/marshaller-bridge": "^1.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^10.1",
-        "friendsofphp/php-cs-fixer": "^3.8",
+        "phpunit/phpunit": "^10.2",
+        "friendsofphp/php-cs-fixer": "^3.19",
         "spiral/testing": "^2.3",
-        "vimeo/psalm": "^5.11",
+        "vimeo/psalm": "^5.13",
         "zentlix/swagger-php": "^1.0"
     },
     "autoload": {
@@ -56,6 +57,12 @@
             ]
         }
     },
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../../../marshaller"
+        }
+    ],
     "minimum-stability": "dev",
     "prefer-stable": true
 }

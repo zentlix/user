@@ -65,6 +65,7 @@ return [
     'user.user.users' => 'Users',
     'user.user.create' => 'Create user',
     'user.user.creating' => 'Creating a user',
+    'user.user.updating' => 'Editing a user',
     'user.user.groups' => 'Groups',
     'user.user.first_name' => 'First name',
     'user.user.last_name' => 'Last name',
@@ -78,5 +79,7 @@ return [
     'user.user.created_successfully' => 'User created successfully.',
     'user.user.updated_successfully' => 'User updated successfully.',
     'user.user.deleted_successfully' => 'User deleted successfully.',
+    'user.user.delete_confirm_body' => 'Are you sure you want to delete the user?',
+    'user.user.delete_confirm_title' => 'Deleting a user',
     'user.validation.password_equal' => 'The password and password confirmation do not match.',
 ];

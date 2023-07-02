@@ -6,6 +6,8 @@ namespace Zentlix\User\Domain\Group\DataTransferObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Spiral\Marshaller\Meta\Marshal;
+use Spiral\Marshaller\Meta\MarshalArray;
 use Spiral\Security\RuleInterface;
 use Symfony\Component\Validator\Constraints;
 use Zentlix\User\Domain\Group\DefaultGroups;
@@ -21,6 +23,7 @@ final class Group
      */
     #[Constraints\NotBlank]
     #[Constraints\Type('string')]
+    #[Marshal]
     public string $code;
 
     /**
@@ -29,18 +32,21 @@ final class Group
     #[Constraints\NotBlank]
     #[Constraints\Positive]
     #[Constraints\Type('int')]
+    #[Marshal]
     public int $sort = 1;
 
     /**
      * @var non-empty-string
      */
     #[Constraints\NotBlank]
+    #[Marshal]
     public string $access;
 
     /**
      * @var array<non-empty-string, class-string<RuleInterface>>
      */
     #[Constraints\Type('array')]
+    #[Marshal]
     public array $permissions = [];
 
     /**
@@ -48,6 +54,7 @@ final class Group
      */
     #[Constraints\NotBlank]
     #[Constraints\Type('array')]
+    #[MarshalArray(of: Title::class)]
     private array $titles;
 
     public function __construct()
@@ -91,7 +98,7 @@ final class Group
         return $this->titles;
     }
 
-    public static function fromGroup(GroupView $group): self
+    public static function fromView(GroupView $group): self
     {
         $self = new self();
         $self->uuid = $group->uuid;

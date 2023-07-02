@@ -6,6 +6,7 @@ namespace Zentlix\User\Domain\Group\DataTransferObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
+use Spiral\Marshaller\Meta\Marshal;
 use Symfony\Component\Validator\Constraints;
 
 final class Title
@@ -15,6 +16,7 @@ final class Title
      */
     #[Constraints\NotBlank]
     #[Constraints\Type('string')]
+    #[Marshal]
     public string $title;
 
     #[Constraints\NotBlank]

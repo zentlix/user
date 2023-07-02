@@ -11,11 +11,11 @@ use Zentlix\User\Domain\Locale\Exception\LocaleNotFoundException;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\CheckLocaleInterface;
 use Zentlix\User\Domain\Locale\Specification\ExistsLocaleSpecificationInterface;
 
-final class ExistsLocaleSpecification extends AbstractSpecification implements ExistsLocaleSpecificationInterface
+final readonly class ExistsLocaleSpecification extends AbstractSpecification implements ExistsLocaleSpecificationInterface
 {
     public function __construct(
-        private readonly CheckLocaleInterface $checkLocale,
-        private readonly TranslatorInterface $translator
+        private CheckLocaleInterface $checkLocale,
+        private TranslatorInterface $translator
     ) {
     }
 

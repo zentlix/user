@@ -15,7 +15,7 @@ use Zentlix\Core\Infrastructure\Shared\ReadModel\Repository\CycleRepository;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 use Zentlix\User\Infrastructure\Translator\Translator;
 
-class LocaleSelector implements MiddlewareInterface
+final class LocaleSelector implements MiddlewareInterface
 {
     /** @var array<non-empty-string, LocaleView> */
     private array $availableLocales;

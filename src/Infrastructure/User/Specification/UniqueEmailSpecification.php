@@ -11,11 +11,11 @@ use Zentlix\User\Domain\User\ReadModel\Repository\CheckUserByEmailInterface;
 use Zentlix\User\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Zentlix\User\Domain\User\ValueObject\Email;
 
-final class UniqueEmailSpecification extends AbstractSpecification implements UniqueEmailSpecificationInterface
+final readonly class UniqueEmailSpecification extends AbstractSpecification implements UniqueEmailSpecificationInterface
 {
     public function __construct(
-        private readonly CheckUserByEmailInterface $checkUserByEmail,
-        private readonly TranslatorInterface $translator
+        private CheckUserByEmailInterface $checkUserByEmail,
+        private TranslatorInterface $translator
     ) {
     }
 

@@ -13,11 +13,11 @@ use Zentlix\User\Domain\User\Exception\DuplicatePhoneException;
 use Zentlix\User\Domain\User\ReadModel\Repository\CheckUserByPhoneInterface;
 use Zentlix\User\Domain\User\Specification\UniquePhoneSpecificationInterface;
 
-final class UniquePhoneSpecification extends AbstractSpecification implements UniquePhoneSpecificationInterface
+final readonly class UniquePhoneSpecification extends AbstractSpecification implements UniquePhoneSpecificationInterface
 {
     public function __construct(
-        private readonly CheckUserByPhoneInterface $checkUserByPhone,
-        private readonly TranslatorInterface $translator
+        private CheckUserByPhoneInterface $checkUserByPhone,
+        private TranslatorInterface $translator
     ) {
     }
 

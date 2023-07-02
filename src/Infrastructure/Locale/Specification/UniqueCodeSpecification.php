@@ -10,11 +10,11 @@ use Zentlix\User\Domain\Locale\Exception\DuplicateCodeException;
 use Zentlix\User\Domain\Locale\ReadModel\Repository\CheckLocaleByCodeInterface;
 use Zentlix\User\Domain\Locale\Specification\UniqueCodeSpecificationInterface;
 
-final class UniqueCodeSpecification extends AbstractSpecification implements UniqueCodeSpecificationInterface
+final readonly class UniqueCodeSpecification extends AbstractSpecification implements UniqueCodeSpecificationInterface
 {
     public function __construct(
-        private readonly CheckLocaleByCodeInterface $checkLocaleByCode,
-        private readonly TranslatorInterface $translator
+        private CheckLocaleByCodeInterface $checkLocaleByCode,
+        private TranslatorInterface $translator
     ) {
     }
 

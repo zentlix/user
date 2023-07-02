@@ -9,5 +9,5 @@ return static function (RoutingConfigurator $routes): void {
     $routes
         ->add('admin.login', '/admin/sign-in')
         ->action(AuthController::class, 'login')
-        ->methods('GET');
+        ->methods(['GET', 'POST']);
 };
