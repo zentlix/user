@@ -85,13 +85,7 @@ final class CreateLocaleCommand extends Command
             return self::FAILURE;
         }
 
-        $this->output->success('Locale was created!');
-        $this->output->text([
-            \sprintf('Title: %s', $command->data->title),
-            \sprintf('Code: %s', $command->data->getCode()),
-            \sprintf('Country code: %s', $command->data->getCountryCode()),
-            \sprintf('Sort: %s', $command->data->sort),
-        ]);
+        $this->output->success('Locale created successfully');
 
         return self::SUCCESS;
     }

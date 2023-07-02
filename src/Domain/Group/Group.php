@@ -145,24 +145,24 @@ final class Group extends EventSourcedAggregateRoot
 
     protected function applyGroupWasCreated(GroupWasCreated $event): void
     {
-        $this->uuid = $event->data->uuid;
-        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
-        $this->code = $event->data->code;
-        $this->access = $event->data->access;
-        $this->sort = $event->data->sort;
+        $this->uuid = $event->group->uuid;
+        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->group->getTitles());
+        $this->code = $event->group->code;
+        $this->access = $event->group->access;
+        $this->sort = $event->group->sort;
         if ($this->access === DefaultAccess::Admin->value) {
-            $this->permissions = $event->data->permissions;
+            $this->permissions = $event->group->permissions;
         }
     }
 
     protected function applyGroupWasUpdated(GroupWasUpdated $event): void
     {
         $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
-        $this->code = $event->data->code;
-        $this->access = $event->data->access;
-        $this->sort = $event->data->sort;
+        $this->code = $event->group->code;
+        $this->access = $event->group->access;
+        $this->sort = $event->group->sort;
         if ($this->access === DefaultAccess::Admin->value) {
-            $this->permissions = $event->data->permissions;
+            $this->permissions = $event->group->permissions;
         }
     }
 }

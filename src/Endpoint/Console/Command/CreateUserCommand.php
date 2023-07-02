@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Zentlix\User\Endpoint\Console\Command;
 
-use libphonenumber\PhoneNumberFormat;
-use libphonenumber\PhoneNumberUtil;
 use Spiral\Console\Attribute\Argument;
 use Spiral\Console\Attribute\AsCommand;
 use Spiral\Console\Command;
@@ -33,8 +31,6 @@ final class CreateUserCommand extends Command
 
     protected function perform(CommandBusInterface $commandBus, GroupRepositoryInterface $groupRepository): int
     {
-        $phoneNumberUtil = PhoneNumberUtil::getInstance();
-
         $groups = \array_map(
             static fn (GroupView $group) => [
                 'uuid' => $group->uuid->toString(),
@@ -96,19 +92,7 @@ final class CreateUserCommand extends Command
             return self::FAILURE;
         }
 
-        $this->output->success('User was created!');
-
-        $this->output->text(\array_filter([
-            \sprintf('Email: %s', $command->data->getEmail()->getValue()),
-            $command->data->getPhone()
-                ? \sprintf('Phone: %s', $phoneNumberUtil->format($command->data->getPhone(), PhoneNumberFormat::E164))
-                : null,
-            $command->data->firstName ? \sprintf('First name: %s', $command->data->firstName) : null,
-            $command->data->lastName ? \sprintf('Last name: %s', $command->data->lastName) : null,
-            $command->data->middleName ? \sprintf('Middle name: %s', $command->data->middleName) : null,
-            \sprintf('Group code: %s', \array_column($groups, 'code', 'uuid')[$group]),
-            \sprintf('Status: %s', $command->data->status->name),
-        ]));
+        $this->output->success('User created successfully');
 
         return self::SUCCESS;
     }

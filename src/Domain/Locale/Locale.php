@@ -117,20 +117,20 @@ final class Locale extends EventSourcedAggregateRoot
 
     protected function applyLocaleWasCreated(LocaleWasCreated $event): void
     {
-        $this->uuid = $event->data->uuid;
-        $this->title = $event->data->title;
-        $this->code = $event->data->getCode();
-        $this->countryCode = $event->data->getCountryCode();
-        $this->active = $event->data->active;
-        $this->sort = $event->data->sort;
+        $this->uuid = $event->locale->uuid;
+        $this->title = $event->locale->title;
+        $this->code = $event->locale->getCode();
+        $this->countryCode = $event->locale->getCountryCode();
+        $this->active = $event->locale->active;
+        $this->sort = $event->locale->sort;
     }
 
     protected function applyLocaleWasUpdated(LocaleWasUpdated $event): void
     {
-        $this->title = $event->data->title;
-        $this->code = $event->data->getCode();
-        $this->countryCode = $event->data->getCountryCode();
-        $this->active = $event->data->active;
-        $this->sort = $event->data->sort;
+        $this->title = $event->locale->title;
+        $this->code = $event->locale->getCode();
+        $this->countryCode = $event->locale->getCountryCode();
+        $this->active = $event->locale->active;
+        $this->sort = $event->locale->sort;
     }
 }

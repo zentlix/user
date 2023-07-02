@@ -9,7 +9,7 @@ use Zentlix\User\Domain\Locale\DataTransferObject\Locale;
 final class LocaleWasCreated
 {
     public function __construct(
-        public readonly Locale $data
+        public readonly Locale $locale
     ) {
     }
 }

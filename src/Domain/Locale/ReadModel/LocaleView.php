@@ -9,8 +9,6 @@ use Cycle\Annotated\Annotation\Entity;
 use Cycle\Annotated\Annotation\Table\Index;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
 use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
@@ -47,7 +45,6 @@ class LocaleView
      */
     #[OA\Property(property: 'country_code', type: 'string', example: 'US')]
     #[Column(type: 'string', name: 'country_code')]
-    #[SerializedName('country_code')]
     public string $countryCode;
 
     #[OA\Property(type: 'boolean')]
@@ -61,7 +58,6 @@ class LocaleView
     #[Column(type: 'integer')]
     public int $sort;
 
-    #[Ignore]
     public function getId(): string
     {
         return $this->uuid->toString();
@@ -72,7 +68,6 @@ class LocaleView
      *
      * @return non-empty-string
      */
-    #[Ignore]
     public function getFullCode(): string
     {
         return $this->code.'_'.$this->countryCode;

@@ -8,7 +8,7 @@ use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
-use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleTitleRepository;
+use Zentlix\User\Domain\Group\DataTransferObject\Title;
 use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
@@ -17,18 +17,25 @@ use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
     required: ['uuid', 'title', 'group', 'locale'],
     type: 'object',
 )]
-#[Entity(role: 'group_title', repository: CycleTitleRepository::class, table: Table::GroupTitles->value)]
+#[Entity(role: 'group_title', table: Table::GroupTitles->value)]
 class TitleView
 {
     /**
-     * @var non-empty-string $title
+     * @var non-empty-string
      */
     #[Column(type: 'string')]
     public string $title;
 
-    #[Column(type: 'uuid', name: 'group_id', primary: true, typecast: 'uuid')]
+    #[Column(type: 'uuid', name: 'group_uuid', primary: true, typecast: 'uuid')]
     public UuidInterface $group;
 
-    #[Column(type: 'uuid', name: 'locale_id', primary: true, typecast: 'uuid')]
+    #[Column(type: 'uuid', name: 'locale_uuid', primary: true, typecast: 'uuid')]
     public UuidInterface $locale;
+
+    public function __construct(Title $title)
+    {
+        $this->title = $title->title;
+        $this->group = $title->getGroup();
+        $this->locale = $title->getLocale();
+    }
 }

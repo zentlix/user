@@ -79,20 +79,7 @@ final class CreateGroupCommand extends Command
             return self::FAILURE;
         }
 
-        $this->output->success('User group was created!');
-
-        foreach ($command->data->getTitles() as $title) {
-            foreach ($locales as $locale) {
-                if ($locale->uuid->equals($title->getLocale())) {
-                    $this->output->text(\sprintf('Title [%s]: %s', $locale->getFullCode(), $title->title));
-                }
-            }
-        }
-        $this->output->text([
-            \sprintf('Symbol code: %s', $command->data->code),
-            \sprintf('Access: %s', $command->data->access),
-            \sprintf('Sort: %s', $command->data->sort),
-        ]);
+        $this->output->success('Group created successfully');
 
         return self::SUCCESS;
     }

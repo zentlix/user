@@ -26,12 +26,12 @@ final class CycleLocaleProjectionFactory extends Projector
     protected function applyLocaleWasCreated(LocaleWasCreated $event): void
     {
         $readModel = new LocaleView();
-        $readModel->uuid = $event->data->uuid;
-        $readModel->title = $event->data->title;
-        $readModel->code = $event->data->getCode();
-        $readModel->countryCode = $event->data->getCountryCode();
-        $readModel->active = $event->data->active;
-        $readModel->sort = $event->data->sort;
+        $readModel->uuid = $event->locale->uuid;
+        $readModel->title = $event->locale->title;
+        $readModel->code = $event->locale->getCode();
+        $readModel->countryCode = $event->locale->getCountryCode();
+        $readModel->active = $event->locale->active;
+        $readModel->sort = $event->locale->sort;
 
         $this->entityManager->persist($readModel);
         $this->entityManager->run();
@@ -42,13 +42,13 @@ final class CycleLocaleProjectionFactory extends Projector
      */
     protected function applyLocaleWasUpdated(LocaleWasUpdated $event): void
     {
-        $readModel = $this->repository->getByUuid($event->data->uuid);
+        $readModel = $this->repository->getByUuid($event->locale->uuid);
 
-        $readModel->title = $event->data->title;
-        $readModel->code = $event->data->getCode();
-        $readModel->countryCode = $event->data->getCountryCode();
-        $readModel->active = $event->data->active;
-        $readModel->sort = $event->data->sort;
+        $readModel->title = $event->locale->title;
+        $readModel->code = $event->locale->getCode();
+        $readModel->countryCode = $event->locale->getCountryCode();
+        $readModel->active = $event->locale->active;
+        $readModel->sort = $event->locale->sort;
 
         $this->entityManager->persist($readModel);
         $this->entityManager->run();

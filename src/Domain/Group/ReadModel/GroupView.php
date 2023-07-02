@@ -13,13 +13,12 @@ use Doctrine\Common\Collections\Collection;
 use OpenApi\Attributes as OA;
 use Ramsey\Uuid\UuidInterface;
 use Spiral\Security\RuleInterface;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
 use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 
 #[OA\Schema(
     schema: 'GroupView',
-    description: 'User group record',
+    description: 'Group record',
     required: ['uuid', 'titles', 'code', 'sort'],
     type: 'object',
 )]
@@ -34,7 +33,7 @@ class GroupView
      * @var Collection<int, TitleView>
      */
     #[HasMany(target: TitleView::class, innerKey: 'uuid', outerKey: 'group')]
-    private Collection $titles;
+    public Collection $titles;
 
     /**
      * Localized title.
@@ -68,26 +67,8 @@ class GroupView
         $this->titles = new ArrayCollection();
     }
 
-    #[Ignore]
     public function getId(): string
     {
         return $this->uuid->toString();
-    }
-
-    public function getTitles(): Collection
-    {
-        return $this->titles;
-    }
-
-    /**
-     * @param TitleView[] $titles
-     */
-    public function setTitles(array $titles): void
-    {
-        $this->titles->clear();
-
-        foreach ($titles as $title) {
-            $this->titles->add($title);
-        }
     }
 }
