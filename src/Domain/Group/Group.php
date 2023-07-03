@@ -157,7 +157,7 @@ final class Group extends EventSourcedAggregateRoot
 
     protected function applyGroupWasUpdated(GroupWasUpdated $event): void
     {
-        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->data->getTitles());
+        $this->titles = \array_map(static fn (TitleDTO $title): Title => new Title($title), $event->group->getTitles());
         $this->code = $event->group->code;
         $this->access = $event->group->access;
         $this->sort = $event->group->sort;

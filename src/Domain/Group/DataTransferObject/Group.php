@@ -106,7 +106,7 @@ final class Group
         $self->sort = $group->sort;
         $self->access = $group->access;
         $self->permissions = $group->permissions;
-        foreach ($group->getTitles() as $title) {
+        foreach ($group->titles as $title) {
             $self->setTitle($title->title, $title->locale);
         }
 

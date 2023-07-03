@@ -36,7 +36,7 @@ class GroupView
     public Collection $titles;
 
     /**
-     * Localized title.
+     * Localized title for current locale.
      */
     #[HasOne(target: TitleView::class, innerKey: 'uuid', outerKey: 'group')]
     public ?TitleView $title = null;

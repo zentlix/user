@@ -39,7 +39,7 @@ final class CycleGroupProjectionFactory extends Projector
         }
 
         foreach ($event->group->getTitles() as $title) {
-            $view->getTitles()->add(new TitleView($title));
+            $view->titles->add(new TitleView($title));
         }
 
         $this->entityManager->persist($view);
@@ -62,7 +62,7 @@ final class CycleGroupProjectionFactory extends Projector
             $this->entityManager->delete($title);
         }
         foreach ($event->group->getTitles() as $title) {
-            $view->getTitles()->add(new TitleView($title));
+            $view->titles->add(new TitleView($title));
         }
 
         $this->entityManager->persist($view);
