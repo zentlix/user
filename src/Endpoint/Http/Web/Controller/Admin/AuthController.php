@@ -9,10 +9,10 @@ use Spiral\AdminPanel\Config\AdminPanelConfig;
 use Spiral\AdminPanel\Exception\InvalidEmailException;
 use Spiral\AdminPanel\Exception\InvalidPasswordException;
 use Symfony\Component\Form\FormError;
-use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
+use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractAdminController;
 use Zentlix\User\Endpoint\Http\Web\Form\Admin\Auth\SignInForm;
 
-final class AuthController extends AbstractRenderController
+final class AuthController extends AbstractAdminController
 {
     public function login(AdminPanelConfig $config): string|ResponseInterface
     {

@@ -10,7 +10,7 @@ use Spiral\AdminPanel\Attribute\DataGrid;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Domain\Annotation\GuardNamespace;
 use Zentlix\Core\Domain\Shared\Exception\DomainException;
-use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
+use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractAdminController;
 use Zentlix\User\Application\Locale\Command\UpdateCommand;
 use Zentlix\User\Domain\Locale\DataTransferObject\Locale;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
@@ -18,7 +18,7 @@ use Zentlix\User\Endpoint\Http\Web\Form\Admin\Locale\UpdateForm;
 use Zentlix\User\Infrastructure\Locale\ReadModel\Repository\CycleLocaleRepository;
 
 #[GuardNamespace('user_permissions.locale')]
-final class LocaleController extends AbstractRenderController
+final class LocaleController extends AbstractAdminController
 {
     #[DataGrid(name: 'admin-locales')]
     #[Guarded(permission: 'view')]

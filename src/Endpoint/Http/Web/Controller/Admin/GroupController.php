@@ -10,7 +10,7 @@ use Spiral\AdminPanel\Attribute\DataGrid;
 use Spiral\Domain\Annotation\Guarded;
 use Spiral\Domain\Annotation\GuardNamespace;
 use Zentlix\Core\Domain\Shared\Exception\DomainException;
-use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractRenderController;
+use Zentlix\Core\Endpoint\Http\Web\Controller\Admin\AbstractAdminController;
 use Zentlix\User\Application\Group\Command\CreateCommand;
 use Zentlix\User\Application\Group\Command\DeleteCommand;
 use Zentlix\User\Application\Group\Command\UpdateCommand;
@@ -21,7 +21,7 @@ use Zentlix\User\Endpoint\Http\Web\Form\Admin\Group\UpdateForm;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
 
 #[GuardNamespace('user_permissions.group')]
-final class GroupController extends AbstractRenderController
+final class GroupController extends AbstractAdminController
 {
     #[DataGrid(name: 'admin-groups')]
     #[Guarded(permission: 'view')]
