@@ -38,11 +38,11 @@ final class ReadModelBootloader extends Bootloader
         );
         $container->bindSingleton(
             CheckLocaleByCodeInterface::class,
-            $config->getReadModelBinding(CheckLocaleByCodeInterface::class,  CycleLocaleRepository::class)
+            $config->getReadModelBinding(CheckLocaleByCodeInterface::class, CycleLocaleRepository::class)
         );
         $container->bindSingleton(
             LocaleRepositoryInterface::class,
-            $config->getReadModelBinding(LocaleRepositoryInterface::class,  CycleLocaleRepository::class)
+            $config->getReadModelBinding(LocaleRepositoryInterface::class, CycleLocaleRepository::class)
         );
     }
 

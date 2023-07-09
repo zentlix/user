@@ -33,7 +33,7 @@ final readonly class DeleteHandler
         if (\in_array(
             $command->group->code,
             \array_map(static fn (\BackedEnum $code) => $code->value, DefaultGroups::cases()),
-                true
+            true
         )) {
             throw new DomainException($this->translator->trans('user.group.cant_delete_default_group'));
         }

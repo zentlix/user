@@ -38,11 +38,11 @@ final class ReadModelBootloader extends Bootloader
         );
         $container->bindSingleton(
             CheckUserByEmailInterface::class,
-            $config->getReadModelBinding(CheckUserByEmailInterface::class,  CycleUserRepository::class)
+            $config->getReadModelBinding(CheckUserByEmailInterface::class, CycleUserRepository::class)
         );
         $container->bindSingleton(
             CheckUserByPhoneInterface::class,
-            $config->getReadModelBinding(CheckUserByPhoneInterface::class,  CycleUserRepository::class)
+            $config->getReadModelBinding(CheckUserByPhoneInterface::class, CycleUserRepository::class)
         );
     }
 
