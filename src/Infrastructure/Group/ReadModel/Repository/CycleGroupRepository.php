@@ -19,9 +19,9 @@ use Zentlix\User\Infrastructure\Shared\ReadModel\Table;
 final class CycleGroupRepository extends CycleRepository implements GroupRepositoryInterface, CheckGroupInterface, CheckGroupByCodeInterface
 {
     /**
-     * @param UuidInterface|UuidInterface[] $uuid
+     * @param UuidInterface|array<UuidInterface> $uuid
      *
-     * @psalm-return ($uuid is array ? GroupView[] : GroupView|null)
+     * @psalm-return ($uuid is array ? array<GroupView> : GroupView|null)
      */
     public function findByUuid(UuidInterface|array $uuid): GroupView|array|null
     {

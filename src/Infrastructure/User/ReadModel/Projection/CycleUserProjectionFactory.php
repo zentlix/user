@@ -29,6 +29,10 @@ final class CycleUserProjectionFactory extends Projector
 
     protected function applyUserWasCreated(UserWasCreated $event): void
     {
+        if ($event->data->password === null) {
+            throw new \InvalidArgumentException('Password can not be null.');
+        }
+
         $readModel = new UserView();
         $readModel->uuid = $event->data->uuid;
         $readModel->password = $event->data->password;

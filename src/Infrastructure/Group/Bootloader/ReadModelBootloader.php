@@ -12,9 +12,7 @@ use Zentlix\Core\ReadEngines;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupByCodeInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\CheckGroupInterface;
 use Zentlix\User\Domain\Group\ReadModel\Repository\GroupRepositoryInterface;
-use Zentlix\User\Domain\Group\ReadModel\Repository\TitleRepositoryInterface;
 use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleGroupRepository;
-use Zentlix\User\Infrastructure\Group\ReadModel\Repository\CycleTitleRepository;
 
 final class ReadModelBootloader extends Bootloader
 {
@@ -45,10 +43,6 @@ final class ReadModelBootloader extends Bootloader
         $container->bindSingleton(
             CheckGroupByCodeInterface::class,
             $config->getReadModelBinding(CheckGroupByCodeInterface::class, CycleGroupRepository::class)
-        );
-        $container->bindSingleton(
-            TitleRepositoryInterface::class,
-            $config->getReadModelBinding(TitleRepositoryInterface::class, CycleTitleRepository::class)
         );
     }
 

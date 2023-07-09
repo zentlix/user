@@ -33,6 +33,9 @@ final class PermissionsListener implements TokenizationListenerInterface
     {
     }
 
+    /**
+     * @return non-empty-string
+     */
     private function makePermission(
         \ReflectionMethod $method,
         ?Guarded $guarded = null,

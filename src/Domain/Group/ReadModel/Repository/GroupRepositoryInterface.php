@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace Zentlix\User\Domain\Group\ReadModel\Repository;
 
 use Ramsey\Uuid\UuidInterface;
+use Zentlix\Core\Domain\Shared\ReadModel\Repository\CycleRepositoryInterface;
 use Zentlix\User\Domain\Group\Exception\GroupNotFoundException;
 use Zentlix\User\Domain\Group\ReadModel\GroupView;
 
-interface GroupRepositoryInterface
+interface GroupRepositoryInterface extends CycleRepositoryInterface
 {
     /**
      * @return GroupView[]
@@ -18,7 +19,7 @@ interface GroupRepositoryInterface
     /**
      * @param UuidInterface|UuidInterface[] $uuid
      *
-     * @psalm-return ($uuid is array ? array : ?GroupView)
+     * @psalm-return ($uuid is array ? array<GroupView> : ?GroupView)
      */
     public function findByUuid(UuidInterface|array $uuid): GroupView|array|null;
 

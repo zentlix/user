@@ -44,7 +44,9 @@ final class I18nBootloader extends Bootloader
         TranslatorConfig $config
     ): void {
         try {
-            $localeView = $localeRepository->findByCode($config->getFallbackLocale());
+            /** @var non-empty-string $fallbackLocale */
+            $fallbackLocale = $config->getFallbackLocale();
+            $localeView = $localeRepository->findByCode($fallbackLocale);
 
             if ($localeView === null) {
                 throw new LocaleNotFoundException(\sprintf('The locale `%s` not found.', $config->getFallbackLocale()));
