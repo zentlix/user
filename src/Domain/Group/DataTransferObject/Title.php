@@ -14,17 +14,24 @@ final class Title
     /**
      * @var non-empty-string
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('string')]
-    #[Marshal]
+    #[
+        Marshal,
+        Constraints\Type('string')
+    ]
     public string $title;
 
-    #[Constraints\NotBlank]
-    #[Constraints\Uuid]
+    #[
+        Marshal,
+        Constraints\NotBlank,
+        Constraints\Uuid
+    ]
     private UuidInterface $group;
 
-    #[Constraints\NotBlank]
-    #[Constraints\Uuid]
+    #[
+        Marshal,
+        Constraints\NotBlank,
+        Constraints\Uuid
+    ]
     private UuidInterface $locale;
 
     public function getGroup(): UuidInterface

@@ -21,40 +21,42 @@ final class Group
     /**
      * @var non-empty-string
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('string')]
-    #[Marshal]
+    #[
+        Constraints\NotBlank,
+        Constraints\Type('string')
+    ]
     public string $code;
 
     /**
      * @var positive-int
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Positive]
-    #[Constraints\Type('int')]
-    #[Marshal]
+    #[
+        Constraints\NotBlank,
+        Constraints\Positive,
+        Constraints\Type('int')
+    ]
     public int $sort = 1;
 
     /**
      * @var non-empty-string
      */
     #[Constraints\NotBlank]
-    #[Marshal]
     public string $access;
 
     /**
      * @var array<non-empty-string, class-string<RuleInterface>>
      */
     #[Constraints\Type('array')]
-    #[Marshal]
     public array $permissions = [];
 
     /**
      * @var Title[]
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('array')]
-    #[MarshalArray(of: Title::class)]
+    #[
+        MarshalArray(of: Title::class),
+        Constraints\NotBlank,
+        Constraints\Type('array')
+    ]
     private array $titles;
 
     public function __construct()

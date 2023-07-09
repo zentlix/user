@@ -2,15 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Tests\Unit\Domain\Group\Event;
+namespace Tests\User\Feature\Domain\Group\Event;
 
-use PHPUnit\Framework\TestCase;
 use Ramsey\Uuid\Uuid;
-use Spiral\Attributes\AttributeReader;
-use Spiral\Marshaller\Mapper\AttributeMapperFactory;
-use Spiral\Marshaller\Marshaller;
+use Spiral\Marshaller\MarshallerInterface;
 use Spiral\Security\Rule\AllowRule;
 use Spiral\Security\Rule\ForbidRule;
+use Tests\User\Feature\TestCase;
 use Zentlix\User\Domain\Group\DataTransferObject\Group;
 use Zentlix\User\Domain\Group\Event\GroupWasCreated;
 
@@ -26,7 +24,7 @@ final class GroupWasCreatedTest extends TestCase
         $group->permissions = ['foo' => AllowRule::class, 'bar' => ForbidRule::class, 'baz' => true];
         $group->setTitle('Some title', Uuid::fromString('00000000-0000-0000-0000-000000000001'));
 
-        $marshaller = new Marshaller(new AttributeMapperFactory(new AttributeReader()));
+        $marshaller = $this->getContainer()->get(MarshallerInterface::class);
 
         $this->assertEquals([
             'group' => [
@@ -56,7 +54,7 @@ final class GroupWasCreatedTest extends TestCase
         $group->permissions = ['foo' => AllowRule::class, 'bar' => ForbidRule::class, 'baz' => true];
         $group->setTitle('Some title', Uuid::fromString('00000000-0000-0000-0000-000000000001'));
 
-        $marshaller = new Marshaller(new AttributeMapperFactory(new AttributeReader()));
+        $marshaller = $this->getContainer()->get(MarshallerInterface::class);
 
         $this->assertEquals(new GroupWasCreated($group), $marshaller->unmarshal([
             'group' => [

@@ -11,7 +11,7 @@ final class GroupWasDeleted
 {
     public function __construct(
         public readonly UuidInterface $uuid,
-        #[Marshal(name: 'deleted_at')]
+        #[Marshal(name: 'deleted_at', of: \DateTimeImmutable::class)]
         public readonly \DateTimeImmutable $deletedAt
     ) {
     }
