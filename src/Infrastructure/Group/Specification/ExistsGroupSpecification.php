@@ -50,7 +50,7 @@ final readonly class ExistsGroupSpecification extends AbstractSpecification impl
         foreach ($value as $uuid) {
             if (!\in_array($uuid->toString(), $groups, true)) {
                 throw new GroupNotFoundException(
-                    $this->translator->trans('user.group.group_is_not_exists', ['uuid' => $uuid->toString()])
+                    $this->translator->trans('user.group.group_does_not_exist', ['uuid' => $uuid->toString()])
                 );
             }
         }

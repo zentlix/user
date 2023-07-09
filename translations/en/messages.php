@@ -35,7 +35,7 @@ return [
     'user.no' => 'No',
     'user.group.code_already_exists' => 'The group with the code `{code}` already exists.',
     'user.group.group_access' => 'Role',
-    'user.group.group_is_not_exists' => 'The group with UUID `{uuid}` isn\'t exists.',
+    'user.group.group_does_not_exist' => 'The group with UUID `{uuid}` does not exist.',
     'user.group.groups' => 'Groups',
     'user.group.create' => 'Create group',
     'user.group.creating' => 'Creating a group',

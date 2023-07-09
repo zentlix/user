@@ -243,7 +243,7 @@ final class User extends EventSourcedAggregateRoot
 
     public function isWait(): bool
     {
-        return Status::Wait === $this->status;
+        return Status::Waiting === $this->status;
     }
 
     public function signIn(): void

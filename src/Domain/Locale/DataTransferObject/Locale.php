@@ -6,7 +6,7 @@ namespace Zentlix\User\Domain\Locale\DataTransferObject;
 
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Spiral\Marshaller\Meta\Marshal;
 use Symfony\Component\Validator\Constraints;
 use Zentlix\User\Domain\Locale\ReadModel\LocaleView;
 
@@ -17,15 +17,19 @@ class Locale
     /**
      * @var non-empty-string
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('string')]
+    #[
+        Constraints\NotBlank,
+        Constraints\Type('string')
+    ]
     public string $title;
 
     /**
      * @var positive-int
      */
-    #[Constraints\Positive]
-    #[Constraints\Type('int')]
+    #[
+        Constraints\Positive,
+        Constraints\Type('int')
+    ]
     public int $sort = 1;
 
     #[Constraints\Type('bool')]
@@ -34,16 +38,21 @@ class Locale
     /**
      * @var non-empty-string
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('string')]
+    #[
+        Marshal,
+        Constraints\NotBlank,
+        Constraints\Type('string')
+    ]
     private string $code;
 
     /**
      * @var non-empty-string
      */
-    #[Constraints\NotBlank]
-    #[Constraints\Type('string')]
-    #[SerializedName('country_code')]
+    #[
+        Marshal(name: 'country_code'),
+        Constraints\NotBlank,
+        Constraints\Type('string')
+    ]
     private string $countryCode;
 
     public function __construct()

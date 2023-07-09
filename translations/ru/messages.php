@@ -40,7 +40,7 @@ return [
     'user.group.creating' => 'Создание группы',
     'user.group.updating' => 'Редактирование группы',
     'user.group.user_role' => 'Пользователь',
-    'user.group.group_is_not_exists' => 'Группа пользователя с UUID `{uuid}` не найдена.',
+    'user.group.group_does_not_exist' => 'Группа пользователя с UUID `{uuid}` не найдена.',
     'user.group.groups' => 'Группы',
     'user.group.delete_confirm_title' => 'Удаление группы пользователя',
     'user.group.delete_confirm_body' => 'Вы действительно хотите удалить группу пользователя?',
